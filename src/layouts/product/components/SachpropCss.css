@@ -1,0 +1,68 @@
+.book-card {
+    border-radius: 12px;
+    transition: all 0.25s ease;
+}
+
+.book-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+
+/* IMAGE */
+
+.book-img-wrapper {
+    overflow: hidden;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.book-img {
+    height: 230px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.book-img-wrapper:hover .book-img {
+    transform: scale(1.05);
+}
+
+
+/* TITLE */
+
+.book-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    text-decoration: none;
+    line-height: 1.3;
+}
+
+.book-title:hover {
+    color: #dc3545;
+}
+
+
+/* PRICE */
+
+.price-box del {
+    font-size: 13px;
+}
+
+
+/* QUANTITY */
+
+.quantity-box {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 6px 10px;
+}
+
+
+/* WISHLIST ACTIVE */
+
+.btn-outline-danger.active,
+.btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: #fff;
+}
