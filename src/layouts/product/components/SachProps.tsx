@@ -117,7 +117,7 @@ const SachProps: React.FC<SachProps> = (props) => {
   <div className="col-md-3 mt-3">
     <div className="card book-card h-100 shadow-sm">
 
-      {/* IMAGE */}
+
       <NavLink to={`/sach/${props.sach.maSach}`} className="book-img-wrapper">
         {danhSachHinhAnh[0]?.duLieuAnh && (
           <img
@@ -128,7 +128,7 @@ const SachProps: React.FC<SachProps> = (props) => {
         )}
       </NavLink>
 
-      {/* BODY */}
+
       <div className="card-body d-flex flex-column">
         <div className="mb-1">
           {starRating(props.sach.trungBinhXepHang || 0)}
@@ -141,7 +141,7 @@ const SachProps: React.FC<SachProps> = (props) => {
           {props.sach.tenSach}
         </NavLink>
 
-        {/* PRICE */}
+
         <div className="price-box mt-2">
           <del className="text-muted small">
             {dinhDangSo(props.sach.giaNiemYet)}đ
@@ -151,7 +151,6 @@ const SachProps: React.FC<SachProps> = (props) => {
           </div>
         </div>
 
-        {/* ACTION */}
         <div className="mt-auto d-flex gap-2">
           <button
             className={`btn btn-outline-danger flex-fill ${

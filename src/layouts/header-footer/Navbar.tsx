@@ -72,6 +72,9 @@ const Navbar: React.FC<Navbar> = (props) => {
                         <li className="nav-item">
                             <a className="nav-link" href="#">Liên hệ</a>
                         </li>
+                        <li>
+                            <NavLink className="nav-link" to="/chat/users">Chat</NavLink>
+                        </li>
 
                     </ul>
 
@@ -93,7 +96,6 @@ const Navbar: React.FC<Navbar> = (props) => {
                             </button>
                         </form>
 
-
                         {/* GIỎ HÀNG */}
                         <NavLink className="nav-link position-relative" to="/cart">
                             <i className="fas fa-shopping-cart fs-5"></i>
@@ -106,7 +108,7 @@ const Navbar: React.FC<Navbar> = (props) => {
                         {/* <NavLink className="nav-link" to="/UserProfile">
                             <i className="fas fa-user fs-5"></i>
                         </NavLink> */}
-                        <UserProfile/>
+                        <UserProfile />
 
                     </div>
                 </div>

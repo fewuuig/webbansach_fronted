@@ -7,7 +7,6 @@ import HomePage from './layouts/homepage/HomePage';
 import { layToanBoSach } from './api/BookApi';
 import DanhSachSanPham from './layouts/product/DanhSachSanPham';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import About from './layouts/about/About';
 import ChiTietSanPham from './layouts/product/ChiTietSanPham';
 import DangKyNguoiDung from './layouts/user/DangKyNguoiDung';
 import KichHoatTaiKhoan from './layouts/user/KichHoatTaiKhoan';
@@ -25,6 +24,9 @@ import XemDon from './layouts/order/XemDon';
 import DonHang from './layouts/order/DonHang';
 import ChiTietDon from './layouts/cart/component/ChiTietDonHang';
 import UserProfile from './layouts/user/Profile';
+import ChatWS from './ws/ChatWS';
+import DanhSachChat from './ws/DanhSachChat';
+import { Chat } from 'react-bootstrap-icons';
 
 
 
@@ -39,23 +41,24 @@ function App() {
       <BrowserRouter>
         <Navbar tuKhoaTimKiem={tuKhoaTimKiem} setTuKhoaTimKiem={setTuKhoatimKiem} />
         <Routes>
-          <Route path='/' element={<HomePage tuKhoaTimKiem={tuKhoaTimKiem} setTuKhoaTimKiem={setTuKhoatimKiem}/>}/>
-          <Route path='/:maTheLoai' element={<HomePage tuKhoaTimKiem={tuKhoaTimKiem} setTuKhoaTimKiem={setTuKhoatimKiem}/>}/>
+          <Route path='/' element={<HomePage tuKhoaTimKiem={tuKhoaTimKiem} setTuKhoaTimKiem={setTuKhoatimKiem} />} />
+          <Route path='/:maTheLoai' element={<HomePage tuKhoaTimKiem={tuKhoaTimKiem} setTuKhoaTimKiem={setTuKhoatimKiem} />} />
           <Route path='/sach/:maSach' element={<ChiTietSanPham />}></Route>
-          <Route path='/about'  element={<About/>}/>
-          <Route path='/dang-ky'  element={<DangKyNguoiDung/>}/>
-          <Route path='/kich-hoat/:email/:ma-kich-hoat' element ={<KichHoatTaiKhoan/>}/>
-          <Route path='/dang-nhap' element={<DangNhap/>}/>
-          <Route path='/test' element={<Test/>}/>
-          <Route path='/admin/them-sach' element={<SachForm_Admin/>}/>
-          <Route path='/logout' element={<Logout/>}/>
-          <Route path='/cart' element={<Cart/>}/>
-          <Route path='/danh-sach-yeu-thich' element={<DanhSachYeuThich/>} />
-          <Route path='/checkout' element = {<CheckOut/>}/>
-          <Route path='/them-dia-chi-giao-hang' element={<ThemDiaChiGiaoHang/>}/>
-          <Route path='/don-hang' element={<DonHang/>}/>
-          <Route path='/checkout/chi-tiet-don' element={<ChiTietDon/>}/>
- 
+          <Route path='/dang-ky' element={<DangKyNguoiDung />} />
+          <Route path='/kich-hoat/:email/:ma-kich-hoat' element={<KichHoatTaiKhoan />} />
+          <Route path='/dang-nhap' element={<DangNhap />} />
+          <Route path='/test' element={<Test />} />
+          <Route path='/admin/them-sach' element={<SachForm_Admin />} />
+          <Route path='/logout' element={<Logout />} />
+          <Route path='/cart' element={<Cart />} />
+          <Route path='/danh-sach-yeu-thich' element={<DanhSachYeuThich />} />
+          <Route path='/checkout' element={<CheckOut />} />
+          <Route path='/them-dia-chi-giao-hang' element={<ThemDiaChiGiaoHang />} />
+          <Route path='/don-hang' element={<DonHang />} />
+          <Route path='/checkout/chi-tiet-don' element={<ChiTietDon />} />
+          <Route path='/chat/users' element={<DanhSachChat />} />
+
+          <Route path='/chat/users/:username' element={<ChatWS />} />
         </Routes>
 
         <Footer />

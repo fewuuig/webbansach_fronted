@@ -1,0 +1,47 @@
+.chat-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+    /* Chuyển màu nhanh và mượt hơn chút */
+    margin-bottom: 2px;
+    /* Thêm khoảng cách nhỏ giữa các người dùng để danh sách không bị dính chặt */
+}
+
+
+/* Làm dịu màu nền khi hover (Giống hệt mã màu xám của Messenger/Facebook) */
+
+.chat-item:hover {
+    background-color: #babcc1;
+}
+
+
+/* (Tuỳ chọn) Bạn có thể dùng class này cho người dùng đang được chọn để nhắn tin */
+
+.chat-item.active {
+    background-color: #787a7e;
+    /* Màu xám đậm hơn một chút xíu để đánh dấu */
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+    /* Thêm một đường viền siêu mỏng để ảnh nổi bật nhẹ nhàng trên nền sáng */
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.username {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    /* Giảm size chữ xuống 1 xíu để thanh thoát hơn */
+    font-weight: 500;
+    /* Bớt độ đậm lại cho đỡ cứng */
+    color: #1c1e21;
+    /* Màu xám đen dịu hơn màu đen tuyền (#000) */
+}
