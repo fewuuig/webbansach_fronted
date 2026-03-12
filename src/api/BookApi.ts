@@ -55,7 +55,7 @@ export async function lay3SachMoiNhat(): Promise<SachTraVe> {
 export async function timKiemSachTheoTen(tuKhoaTimKiem: String, trangHienTai: number, maTheLoai: number): Promise<SachTraVe> {
     let duongDan: string = `http://localhost:8080/sach?sort=maSach,desc&page=0&size=5`;
     if (tuKhoaTimKiem !== '' && maTheLoai == 0) {
-        duongDan = `http://localhost:8080/sach/search/findByTenSachContaining?tenSach=${tuKhoaTimKiem}&page=${trangHienTai}&size=8&sort=maSach,desc`;
+        duongDan = `http://localhost:8080/books?keyWord=${tuKhoaTimKiem}&page=${trangHienTai}&size=8`;
 
     } else if (tuKhoaTimKiem === '' && maTheLoai > 0) {
         duongDan = `http://localhost:8080/sach/search/findByDanhSachTheLoai_MaTheLoai?maTheLoai=${maTheLoai}&page=${trangHienTai}&size=5&sort=maSach,desc`;

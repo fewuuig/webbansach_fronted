@@ -1,0 +1,58 @@
+.dashboard {
+    padding: 30px;
+    background: #f5f6fa;
+    min-height: 100vh;
+}
+
+.dashboard-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 25px;
+}
+
+.stat-container {
+    display: flex;
+    gap: 20px;
+}
+
+.stat-card {
+    flex: 1;
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+}
+
+.stat-icon {
+    font-size: 35px;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: #777;
+}
+
+.stat-value {
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.orders {
+    border-left: 5px solid #3498db;
+}
+
+.books {
+    border-left: 5px solid #2ecc71;
+}
+
+.revenue {
+    border-left: 5px solid #f39c12;
+}

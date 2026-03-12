@@ -76,6 +76,10 @@ const Navbar: React.FC<Navbar> = (props) => {
                             <NavLink className="nav-link" to="/chat/users">Chat</NavLink>
                         </li>
 
+                         <li>
+                            <NavLink className="nav-link" to="/stats">Thống kê</NavLink>
+                        </li>
+
                     </ul>
 
                     {/* KHỐI BÊN PHẢI - GIỮ NGUYÊN HOẶC BỎ ms-auto CŨNG ĐƯỢC VÌ ĐÃ CÓ justify-content-between */}

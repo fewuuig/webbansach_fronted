@@ -2,8 +2,8 @@ import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
 
 let stompClient = null;
-export const connectWebSocket = (token, setMessage) => {
-    const socket = new SockJS("http://localhost:8080/ws/chat");
+export const connectWebSocket = (token, setMessage, setStat) => {
+    const socket = new SockJS("http://localhost:8080/ws");
 
     stompClient = new Client({
             webSocketFactory: () => socket,
@@ -19,6 +19,10 @@ export const connectWebSocket = (token, setMessage) => {
                     const body = JSON.parse(message.body);
                     setMessage(body);
                 });
+                stompClient.subscribe("/topic/stats", stat => {
+                    const body = JSON.parse(stat.body)
+                    setStat(body)
+                })
             },
             onStompError: (frame) => {
                 console.log(frame.headers["message"]);

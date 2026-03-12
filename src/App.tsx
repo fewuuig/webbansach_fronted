@@ -27,6 +27,7 @@ import UserProfile from './layouts/user/Profile';
 import ChatWS from './ws/ChatWS';
 import DanhSachChat from './ws/DanhSachChat';
 import { Chat } from 'react-bootstrap-icons';
+import StatDashboard from './layouts/stats/StatDashboard';
 
 
 
@@ -57,8 +58,8 @@ function App() {
           <Route path='/don-hang' element={<DonHang />} />
           <Route path='/checkout/chi-tiet-don' element={<ChiTietDon />} />
           <Route path='/chat/users' element={<DanhSachChat />} />
-
           <Route path='/chat/users/:username' element={<ChatWS />} />
+          <Route path='/stats' element ={<StatDashboard/>}/>
         </Routes>
 
         <Footer />
