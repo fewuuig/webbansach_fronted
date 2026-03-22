@@ -7,7 +7,7 @@ interface chat{
 export async function getDanhSachUserChat(): Promise<chat[]> {
     const ketQua:chat[] = [] ; 
     const accessToken = localStorage.getItem("accessToken") ; 
-    const respone = await fetch("http://localhost:8080/chat/users" , {
+    const respone = await fetch("http://localhost:8080/chat/list-users" , {
         method : 'GET' , 
         headers : {
             'Authorization' : 'Bearer ' + accessToken   , 

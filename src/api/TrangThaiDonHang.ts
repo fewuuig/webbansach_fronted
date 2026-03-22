@@ -13,6 +13,9 @@ interface SachTrongDonDTOS {
 }
 
 interface donHang {
+    soDienThoai :string,
+    hoTen:string
+    tongGia : number ,
     maDonHang: number,
     chiPhiGiaoHang: number,
     diaChiNhanHang: string,
@@ -33,6 +36,9 @@ export async function layDonHangTheoTrangThai(trangThai: string): Promise<donHan
         const responeData = await respone.json();
         for (const i of responeData) {
             ketQua.push({
+                soDienThoai : i.soDiemThoai , 
+                hoTen : i.hoTen,
+                tongGia: i.tongGia ,
                 maDonHang: i.maDonHang,
                 chiPhiGiaoHang: i.chiPhiGiaoHang,
                 diaChiNhanHang: i.diaChiNhanHang,

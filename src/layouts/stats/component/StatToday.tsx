@@ -2,13 +2,28 @@ import React, { useEffect, useState } from "react";
 import statModel from "../../../model/StatModel";
 import { connectWebSocket } from "../../../ws/connectWebSocket";
 import "./StatToday.css" ; 
+import { getStatToday } from "../../../api/statsApi";
+import { error } from "console";
+interface stat {
+    orders: number,
+    books: number,
+    revenue: number,
+}
 const StatToday: React.FC = () => {
-    const [statToday, setStatToday] = useState<statModel | null>(null);
+    const [statToday, setStatToday] = useState<stat | null>(null);
     useEffect(() => {
         const token = localStorage.getItem("accessToken")
         connectWebSocket(token, () => { }, setStatToday)
     }, []);
-
+    useEffect(()=>{
+        getStatToday().then(
+            data =>{
+                setStatToday(data) ; 
+            }
+        ).catch(error=>{
+            console.log(error) ; 
+        })
+    })
  return (
         <div className="dashboard">
 

@@ -1,0 +1,191 @@
+/* ===== CARD ===== */
+
+.order-card {
+    border-radius: 14px;
+    border: 1px solid #eee;
+    background: #fcf9f9;
+    transition: all 0.25s ease;
+}
+
+.order-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+
+/* ===== HEADER ===== */
+
+.card-header {
+    background: #fafafa;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+
+/* ===== STATUS ===== */
+
+.status-badge {
+    background: #edf2ff;
+    color: #3b5bdb;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+
+/* ===== PRODUCT ROW ===== */
+
+.product-row {
+    padding: 14px 0;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.product-row:last-child {
+    border-bottom: none;
+}
+
+
+/* ===== IMAGE (KHÔNG BÉ) ===== */
+
+.img-box {
+    width: 90px;
+    height: 110px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #eee;
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* ===== TEXT ===== */
+
+.book-name {
+    font-weight: 600;
+    font-size: 15px;
+    color: #222;
+    margin-bottom: 4px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.book-qty {
+    font-size: 13px;
+    color: #888;
+}
+
+
+/* ===== PRICE ===== */
+
+.book-price {
+    font-size: 13px;
+    color: #999;
+}
+
+.book-total {
+    font-size: 16px;
+    font-weight: 700;
+    color: #e03131;
+}
+
+
+/* ===== ADDRESS ===== */
+
+.address {
+    font-size: 14px;
+    background: #f8f9fa;
+    padding: 12px 14px;
+    border-radius: 8px;
+    color: #555;
+}
+
+
+/* ===== PRICE BOX ===== */
+
+.price-box {
+    background: #fff7f5;
+    border: 1px solid #ffe3dc;
+    padding: 12px 14px;
+    border-radius: 10px;
+}
+
+.sub-price {
+    font-size: 13px;
+    color: #666;
+}
+
+.total-price {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ee4d2d;
+    margin-top: 6px;
+}
+
+
+/* ===== BUTTON ===== */
+
+.action-btn {
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 13px;
+    transition: all 0.2s ease;
+}
+
+
+/* nút ĐẶT LẠI nổi bật */
+
+.highlight-btn {
+    background: linear-gradient(45deg, #ff6a00, #ee4d2d);
+    border: none;
+    color: white;
+}
+
+.highlight-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(238, 77, 45, 0.4);
+}
+
+.address-box {
+    background: #f8f9fa;
+    padding: 12px 14px;
+    border-radius: 10px;
+    line-height: 1.5;
+}
+
+
+/* tên người nhận */
+
+.receiver-name {
+    font-weight: 600;
+    color: #222;
+    font-size: 15px;
+}
+
+
+/* số điện thoại */
+
+.receiver-phone {
+    font-size: 14px;
+    color: #555;
+    margin-top: 2px;
+}
+
+
+/* địa chỉ */
+
+.receiver-address {
+    font-size: 13.5px;
+    color: #777;
+    margin-top: 4px;
+}

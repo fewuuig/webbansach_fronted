@@ -1,6 +1,7 @@
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
 
+
 let stompClient = null;
 export const connectWebSocket = (token, setMessage, setStat) => {
     const socket = new SockJS("http://localhost:8080/ws");
@@ -15,7 +16,7 @@ export const connectWebSocket = (token, setMessage, setStat) => {
             },
             onConnect: () => {
                 console.log("websocket conected");
-                stompClient.subscribe("/user/queue/support", message => {
+                stompClient.subscribe("/user/queue/chat", message => {
                     const body = JSON.parse(message.body);
                     setMessage(body);
                 });
@@ -31,24 +32,18 @@ export const connectWebSocket = (token, setMessage, setStat) => {
 
     );
     stompClient.activate();
+    return stompClient;
 }
-export const sendMessageToSupporter = (content) => {
+
+export const sendMessageToUser = (content, sendToUser, sender) => {
     if (stompClient && stompClient.connected) {
         stompClient.publish({
-            destination: "/app/chat.send-to-supporter",
-            body: JSON.stringify({
-                content: content
-            })
-        })
-    }
-}
-export const sendMessageToUser = (content, sendToUser) => {
-    if (stompClient && stompClient.connected) {
-        stompClient.publish({
-            destination: "/app/chat.send-to-user",
+            destination: "/app/chat/users/dm",
             body: JSON.stringify({
                 content: content,
-                sendToUser: sendToUser
+                sendToUser: sendToUser,
+                sender: sender,
+
             })
         })
     }

@@ -11,7 +11,6 @@ import ChiTietSanPham from './layouts/product/ChiTietSanPham';
 import DangKyNguoiDung from './layouts/user/DangKyNguoiDung';
 import KichHoatTaiKhoan from './layouts/user/KichHoatTaiKhoan';
 import DangNhap from './layouts/user/DangNhap';
-import Test from './layouts/user/Test';
 import SachForm from './layouts/admin/SachForm';
 import SachForm_Admin from './layouts/admin/SachForm';
 import Logout from './layouts/user/Logout';
@@ -28,6 +27,8 @@ import ChatWS from './ws/ChatWS';
 import DanhSachChat from './ws/DanhSachChat';
 import { Chat } from 'react-bootstrap-icons';
 import StatDashboard from './layouts/stats/StatDashboard';
+import CheckUsername from './layouts/user/CheckUsername';
+import CheckPassword from './layouts/user/Checkpassword';
 
 
 
@@ -48,7 +49,6 @@ function App() {
           <Route path='/dang-ky' element={<DangKyNguoiDung />} />
           <Route path='/kich-hoat/:email/:ma-kich-hoat' element={<KichHoatTaiKhoan />} />
           <Route path='/dang-nhap' element={<DangNhap />} />
-          <Route path='/test' element={<Test />} />
           <Route path='/admin/them-sach' element={<SachForm_Admin />} />
           <Route path='/logout' element={<Logout />} />
           <Route path='/cart' element={<Cart />} />
@@ -60,6 +60,8 @@ function App() {
           <Route path='/chat/users' element={<DanhSachChat />} />
           <Route path='/chat/users/:username' element={<ChatWS />} />
           <Route path='/stats' element ={<StatDashboard/>}/>
+          <Route path='/account/loggin' element={<CheckUsername/>}/>
+          <Route path='/account/password' element={<CheckPassword/>}/>
         </Routes>
 
         <Footer />

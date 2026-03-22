@@ -112,8 +112,8 @@ const Navbar: React.FC<Navbar> = (props) => {
                         {/* <NavLink className="nav-link" to="/UserProfile">
                             <i className="fas fa-user fs-5"></i>
                         </NavLink> */}
+                        
                         <UserProfile />
-
                     </div>
                 </div>
             </div>

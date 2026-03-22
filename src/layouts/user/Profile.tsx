@@ -1,129 +1,152 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './UserProfile.css';
-import DangNhap from './DangNhap';
 import { useNavigate } from 'react-router-dom';
 import { layThongTinCaNhan } from '../../api/ThongTinCaNhanApi';
+
 interface ThongTinTaiKhoan {
   ten: string,
   hoDem: string,
   gioiTinh: string,
-  anhDaiDien: string , 
-  email : string
+  anhDaiDien: string,
+  email: string,
+  tenDangNhap: string,
+  soDienThoai: string
 }
+
 const UserProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const accessToken = localStorage.getItem("accessToken");
-  const [trangThaiDangNhap, setTrangThaiDangNhap] = useState(false);
-
   const [thongTinNguoiDung, setThongTinNguoiDung] = useState<ThongTinTaiKhoan | null>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+
+  const accessToken = localStorage.getItem("accessToken");
+  // toggle dropdown
   const toggleDropdown = () => {
-    setIsOpen(!isOpen);
+    setIsOpen(prev => !prev);
   };
 
+  // click outside (FIX)
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (!dropdownRef.current) return;
+
+      if (!dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
+
+    document.addEventListener("click", handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-  useEffect(() => {
-    layThongTinCaNhan().then(
-      data => {
-        setThongTinNguoiDung(data);
-      }
-    )
-  }, [])
-  const navigate = useNavigate();
-  const handleDangNhap = () => {
-    navigate("/dang-nhap");
 
-  }
+  // load user info
+  useEffect(() => {
+    if (!accessToken) return;
+
+    layThongTinCaNhan().then(data => {
+      setThongTinNguoiDung(data);
+    }).catch(() => {
+      setThongTinNguoiDung(null);
+    });
+  }, [accessToken]);
+  // login
+  const handleDangNhap = () => {
+    navigate("/account/loggin");
+  };
+
+  // logout
   const handleDangXuat = async () => {
     const refreshToken = localStorage.getItem('refreshToken');
-    await fetch('http://localhost:8080/tai-khoan/logout',
-      {
-        method: 'POST',
-        headers: {
-          'content-type': "application/json"
-        },
-        body: JSON.stringify(
-          { refreshToken: refreshToken }
-        )
-      }
-    )
+
+    await fetch('http://localhost:8080/tai-khoan/logout', {
+      method: 'POST',
+      headers: {
+        'content-type': "application/json"
+      },
+      body: JSON.stringify({ refreshToken })
+    });
+
     localStorage.clear();
+    navigate("/account/username");
+  };
 
-    navigate("/dang-nhap");
-  }
   return (
-    // Thêm position-relative để dropdown bám theo icon này
-   <div className="user-profile-container position-relative" ref={dropdownRef}>
+    <div className="user-profile-container position-relative" ref={dropdownRef}>
 
-      {/* SỬA CHỖ NÀY:
-         Thay button bằng span có class "nav-link" để giống hệt menu của bạn.
-         Thêm style cursor: pointer để có hình bàn tay khi di chuột vào.
-      */}
+      {/* ICON / AVATAR */}
       <span
         className="nav-link"
         onClick={toggleDropdown}
-        style={{ cursor: 'pointer', userSelect: 'none', display: 'flex', alignItems: 'center' }}
+        style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
       >
         {accessToken ? (
-          // Nếu đã đăng nhập thì hiện Avatar nhỏ
-          thongTinNguoiDung &&<img
-            src={thongTinNguoiDung.anhDaiDien}
-            alt="Avatar"
-            className="rounded-circle"
-            style={{ width: '25px', height: '25px', objectFit: 'cover' }}
-          />
+          thongTinNguoiDung ? (
+            <img
+              src={thongTinNguoiDung.anhDaiDien}
+              alt="Avatar"
+              className="rounded-circle"
+              style={{ width: '30px', height: '30px', objectFit: 'cover' }}
+            />
+          ) : (
+            <div className="avatar-loading">...</div> // loading
+          )
         ) : (
-          // Nếu chưa đăng nhập thì hiện Icon người như cũ
           <i className="fas fa-user fs-5 text-primary"></i>
         )}
       </span>
 
-      {/* Phần Dropdown (Cửa sổ popup) */}
+      {/* DROPDOWN */}
       {isOpen && (
         <div className="profile-dropdown">
+
           {accessToken ? (
-            thongTinNguoiDung &&<>
-              <div className="dropdown-header">
-                 <img
-                  src={thongTinNguoiDung.anhDaiDien}
-                  alt="Avatar"
-                  className="rounded-circle"
-                  style={{ width: '25px', height: '25px', objectFit: 'cover' }}
-                />
-                <p className="user-name">{thongTinNguoiDung.hoDem + thongTinNguoiDung.ten}</p>
-                <p className="user-email">{thongTinNguoiDung.email}</p>
-              </div>
-              <button className="action-btn">👤 Hồ sơ</button>
-              <button className="action-btn">⚙️ Cài đặt</button>
-              <button className="action-btn logout-btn" onClick={handleDangXuat}>
-                🚪 Đăng xuất
-              </button>
-            </>
+            thongTinNguoiDung ? (
+              <>
+                <div className="dropdown-header">
+                  <img
+                    src={thongTinNguoiDung.anhDaiDien}
+                    alt="Avatar"
+                    className="rounded-circle"
+                    style={{ width: '40px', height: '40px', objectFit: 'cover' }}
+                  />
+                  <p className="user-name">
+                    {thongTinNguoiDung.hoDem + " " + thongTinNguoiDung.ten}
+                  </p>
+                  <p className="user-email">{thongTinNguoiDung.email}</p>
+                </div>
+
+                <button className="action-btn">👤 Hồ sơ</button>
+                <button className="action-btn">⚙️ Cài đặt</button>
+
+                <button
+                  className="action-btn logout-btn"
+                  onClick={handleDangXuat}
+                >
+                  🚪 Đăng xuất
+                </button>
+              </>
+            ) : (
+              <div className="p-3 text-center">Đang tải...</div>
+            )
           ) : (
             <>
               <div className="dropdown-header">
                 <p className="user-name">Khách</p>
                 <p className="user-email">Vui lòng đăng nhập</p>
               </div>
+
               <button className="action-btn primary-btn" onClick={handleDangNhap}>
                 Đăng nhập
               </button>
+
               <button className="action-btn secondary-btn">
                 Đăng ký
               </button>
             </>
           )}
+
         </div>
       )}
     </div>

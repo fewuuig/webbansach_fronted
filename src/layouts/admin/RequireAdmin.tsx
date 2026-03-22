@@ -23,7 +23,6 @@ const RequireAdmin = <P extends object>(WrappedComponent: React.ComponentType<P>
                 const decodeToken = jwtDecode(token) as Jwtpayload;
                 // lấy thông tin của thể 
                 const isAdmin = decodeToken.isAdmin;
-                console.log(decodeToken);
                 if (!isAdmin) {
                     navigate("/Fobbiden-403");
                     return;

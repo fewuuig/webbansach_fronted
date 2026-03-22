@@ -18,14 +18,17 @@ interface ViewCart {
     giaBan: number,
     tongGia: number
 }
-
+interface kq {
+    soLuong: number;
+    maSach: number;
+}
 const ChiTietDon: React.FC = (props) => {
     const { state } = useLocation();
     const { danhSachSanPhamChon } = state || {};
     const [maDiaChi, setMaDiaChi] = useState<number | null>(null);
     const [maHinhThucThanhToan, setMaHinhThucThanhToan] = useState<number | null>(null);
     const [maHinhThucGiaoHang, setMaHinhThucGiaoHang] = useState<number | null>(null);
-    const [danhSachSanPhamDatHang, setDanhSachSanPhamDatHang] = useState<ViewCart[]>([])
+    const [danhSachSanPhamDatHang, setDanhSachSanPhamDatHang] = useState<ViewCart[]>([]);
     useEffect(() => {
         layDanhSachSanPhamDatHang(danhSachSanPhamChon).then(
             data => {
@@ -38,6 +41,17 @@ const ChiTietDon: React.FC = (props) => {
                 }
             )
     }, [])
+    const kq: kq[] = [];
+    danhSachSanPhamDatHang.map((item: any) => (
+        kq.push({
+            maSach: item.maSach,
+            soLuong: item.soLuong
+        })
+    ));
+    console.log("dan sách saner phẩm chọn mua " + kq) ;
+    console.log( "Danh sách sản phâ,r đTWJS HÀNG " + danhSachSanPhamDatHang) ; 
+    console.log(danhSachSanPhamDatHang);
+    console.log(kq);
     const handleDatHang = async () => {
         if (!maDiaChi) {
             alert("Vui lòng chọn địa chỉ giao hàng");
@@ -50,24 +64,31 @@ const ChiTietDon: React.FC = (props) => {
         }
         const accessToken = localStorage.getItem("accessToken");
 
-        const respone = await fetch("http://localhost:8080/order/place-order-from-cart", {
+        const respone = await fetch("http://localhost:8080/order/place-order", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${accessToken}`,
             },
             body: JSON.stringify({
-                danhSachSanPhamDatHang: danhSachSanPhamChon,
+                items: kq,
                 maDiaChiGiaoHang: maDiaChi,
                 maHinhThucThanhToan: maHinhThucThanhToan,
                 maHinhThucGiaoHang: maHinhThucGiaoHang
             }),
-        }) ; 
-        if(!respone.ok){
-            const responeData =await respone.json() ; 
-            alert(responeData.error) ; 
-            return ;
+        });
+        if (!respone.ok) {
+            const responeData = await respone.json();
+            alert(responeData.error);
+            return;
         }
+        console.log({
+            items: kq,
+            danhSachSanPhamDatHang: danhSachSanPhamChon,
+            maDiaChiGiaoHang: maDiaChi,
+            maHinhThucThanhToan: maHinhThucThanhToan,
+            maHinhThucGiaoHang: maHinhThucGiaoHang
+        })
         alert("Đặt hàng thành công");
     }
     return (
@@ -84,9 +105,6 @@ const ChiTietDon: React.FC = (props) => {
                             <p>Giá : {gioHangSach.giaBan}</p>
                             <p>SL :  x{gioHangSach.soLuong}</p>
                             <p>Tổng giá : {dinhDangSo(gioHangSach.tongGia)}</p>
-
-
-
                         </div>
                     </div>
                 ))

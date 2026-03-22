@@ -32,8 +32,11 @@ const CheckOut: React.FC = () => {
                 Authorization: `Bearer ${accessToken}`,
             },
             body: JSON.stringify({
-                maSach: sach.maSach,
-                soLuong: soLuong,
+                items:[ {
+                    maSach: sach.maSach,
+                    soLuong: soLuong,
+                }],
+                
                 maDiaChiGiaoHang: maDiaChi,
                 maHinhThucThanhToan: maHinhThucThanhToan,
                 maHinhThucGiaoHang: maHinhThucGiaoHang

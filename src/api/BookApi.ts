@@ -4,13 +4,47 @@ import { promises } from "dns";
 import { request } from "./Request";
 import DanhSachSanPham from "../layouts/product/DanhSachSanPham";
 import { error } from "console";
+import { json } from "stream/consumers";
 interface SachTraVe {
     ketQua: BookModel[];
     soSachTrenMotTrang: number;
     tongTrang: number;
 
 }
+export async function laySachVer2(param: string): Promise<SachTraVe> {
+    const ketQua: BookModel[] = [];
+    const accessToken = localStorage.getItem("accessToken");
+    const respone = await fetch(param, {
+        method: 'GET',
+        headers: {
+           
+        }
 
+    });
+    if (!respone.ok) {
+        throw new Error("Lỗi trong quá trình lấy sách từ DB lên đẻt phân trang");
+    }
+    const data = await respone.json();
+
+    const dataBook = data.content;
+    const soSachTrenMotTrang = data.size;
+    const tongTrang = data.totalPages;
+    for (const i of dataBook) {
+        ketQua.push({
+            maSach: i.maSach,
+            tenSach: i.tenSach,
+            giaBan: i.giaBan,
+            giaNiemYet: i.giaNiemYet,
+            moTa: i.moTa,
+            soLuong: i.soLuong,
+            tenTacGia: i.tenTacGia,
+            trungBinhXepHang: i.trungBinhXepHang,
+
+        })
+    }
+
+    return { ketQua, soSachTrenMotTrang, tongTrang };
+}
 async function laySach(params: string): Promise<SachTraVe> {
     const ketQua: BookModel[] = [];
     const respone = await request(params);
@@ -40,9 +74,9 @@ export async function layToanBoSach(trangHienTai: number): Promise<SachTraVe> {
 
 
     // xác định endpoint 
-    const duongDan: string = `http://localhost:8080/sach?sort=maSach,desc&size=8&page=${trangHienTai}`;
+    const duongDan: string = `http://localhost:8080/books/page-size?page=${trangHienTai}&size=8`;
 
-    return laySach(duongDan);
+    return laySachVer2(duongDan);
 }
 export async function lay3SachMoiNhat(): Promise<SachTraVe> {
 
@@ -55,39 +89,40 @@ export async function lay3SachMoiNhat(): Promise<SachTraVe> {
 export async function timKiemSachTheoTen(tuKhoaTimKiem: String, trangHienTai: number, maTheLoai: number): Promise<SachTraVe> {
     let duongDan: string = `http://localhost:8080/sach?sort=maSach,desc&page=0&size=5`;
     if (tuKhoaTimKiem !== '' && maTheLoai == 0) {
-        duongDan = `http://localhost:8080/books?keyWord=${tuKhoaTimKiem}&page=${trangHienTai}&size=8`;
+        duongDan = `http://localhost:8080/sach/search/findByTenSachContaining?tenSach=${tuKhoaTimKiem}&page=${trangHienTai}&size=8&sort=desc`;
+        return laySach(duongDan) ; 
 
     } else if (tuKhoaTimKiem === '' && maTheLoai > 0) {
-        duongDan = `http://localhost:8080/sach/search/findByDanhSachTheLoai_MaTheLoai?maTheLoai=${maTheLoai}&page=${trangHienTai}&size=5&sort=maSach,desc`;
+        duongDan = `http://localhost:8080/books/category-page-size?maTheLoai=${maTheLoai}&page=${trangHienTai}&size=8`;
     } else if (tuKhoaTimKiem !== '' && maTheLoai > 0) {
         duongDan = `http://localhost:8080/sach/search/findByTenSachContainingAndDanhSachTheLoai_MaTheLoai?tenSach=${tuKhoaTimKiem}&maTheLoai=${maTheLoai}&page=${trangHienTai}&size=8&sort=maSach,desc`;
     }
-    return laySach(duongDan);
+    return laySachVer2(duongDan);
 
 }
 
-export async  function layChiTietMotQuyenSach(maSach: number): Promise<BookModel|null> {
-    const duongDan = `http://localhost:8080/sach/${maSach}`;
+export async function layChiTietMotQuyenSach(maSach: number): Promise<BookModel | null> {
+    const duongDan = `http://localhost:8080/books/${maSach}`;
     try {
         const respone = await fetch(duongDan);
         if (!respone.ok) {
             throw new Error("gặp lỗi khi lấy d liệu");
         }
 
-        const sachData =await respone.json();
+        const sachData = await respone.json();
         if (sachData) {
             return {
-                maSach : sachData.maSach,
-                tenSach : sachData.tenSach,
-                giaBan : sachData.giaBan,
-                giaNiemYet : sachData.giaNiemYet,
-                moTa : sachData.moTa,
-                soLuong : sachData.soLuong,
-                tenTacGia : sachData.tenTacGia,
-                trungBinhXepHang : sachData.trungBinhXepHang,
+                maSach: sachData.maSach,
+                tenSach: sachData.tenSach,
+                giaBan: sachData.giaBan,
+                giaNiemYet: sachData.giaNiemYet,
+                moTa: sachData.moTa,
+                soLuong: sachData.soLuong,
+                tenTacGia: sachData.tenTacGia,
+                trungBinhXepHang: sachData.trungBinhXepHang,
             }
-        }else {
-            throw new Error("sách không tồn tại") ; 
+        } else {
+            throw new Error("sách không tồn tại");
         }
     } catch (error) {
         console.error(error);
