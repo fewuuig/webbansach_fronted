@@ -45,4 +45,31 @@ export async function layVoucherCuaUser(): Promise<MaGiamGiaUserResponeDTO > {
         console.error("Lỗi fetch voucher:", error);
         throw new Error("Lỗi khi lấy voucher") ;
     }
+
+}
+export async function layTatCaVoucher(): Promise<MaGiamGiaCuaUserResponeDTO[]> {
+    try {
+        const accessToken = localStorage.getItem("accessToken");
+
+        const response = await fetch("http://localhost:8080/vouchers/all", {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${accessToken}`,
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (!response.ok) {
+            console.error("Lỗi API:", response.status);
+            throw new Error("Lỗi khi lấy danh sách voucher");
+        }
+
+        const data: MaGiamGiaCuaUserResponeDTO[] = await response.json();
+
+        return data;
+
+    } catch (error) {
+        console.error("Lỗi fetch tất cả voucher:", error);
+        throw new Error("Lỗi khi lấy danh sách voucher");
+    }
 }

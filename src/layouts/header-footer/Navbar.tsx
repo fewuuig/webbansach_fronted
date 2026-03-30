@@ -117,7 +117,7 @@ const Navbar: React.FC<NavbarProps> = (props) => {
                             <ul className="dropdown-menu">
                                 <li><NavLink className="dropdown-item" to="/admin/them-sach">Thêm sách</NavLink></li>
                                 <li><NavLink className="dropdown-item" to="/book/update">Sửa sách</NavLink></li>
-                                <li><NavLink className="dropdown-item" to="/vouchers/add-voucher">Thêm mã giảm</NavLink></li>
+                                <li><NavLink className="dropdown-item" to="/vouchers/add-voucher">Mã giảm giá</NavLink></li>
                                 <li><NavLink className="dropdown-item" to="/account/disable">Disable account</NavLink></li>
                             </ul>
                         </li>
