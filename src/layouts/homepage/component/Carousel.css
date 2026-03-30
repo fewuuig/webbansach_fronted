@@ -1,0 +1,26 @@
+/* làm mượt toàn bộ animation */
+
+.carousel-item {
+    transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
+}
+
+
+/* hiệu ứng zoom nhẹ khi active */
+
+.carousel-item.active {
+    transform: scale(1.02);
+}
+
+
+/* giảm giật khi chuyển */
+
+.carousel-inner {
+    overflow: hidden;
+}
+
+
+/* hover pause + feel mượt hơn */
+
+.carousel:hover .carousel-item {
+    transition: transform 0.5s ease;
+}

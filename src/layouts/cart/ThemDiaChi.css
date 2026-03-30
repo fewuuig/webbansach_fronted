@@ -1,0 +1,119 @@
+/* ===== BACKGROUND + CENTER ===== */
+
+.address-container {
+    min-height: calc(100vh - 70px);
+    /* trừ navbar */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f5f6f8;
+    padding: 20px;
+}
+
+
+/* ===== CARD ===== */
+
+.address-card {
+    width: 450px;
+    background: #fff;
+    border-radius: 20px;
+    padding: 30px 25px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+    animation: fadeIn 0.4s ease;
+}
+
+
+/* ===== TITLE ===== */
+
+.address-title {
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+/* ===== FORM ===== */
+
+.address-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+
+/* ===== FORM GROUP ===== */
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+
+/* ===== INPUT ===== */
+
+.form-group input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    outline: none;
+    transition: all 0.2s ease;
+    font-size: 14px;
+}
+
+
+/* hover nhẹ */
+
+.form-group input:hover {
+    border-color: #bbb;
+}
+
+
+/* focus xịn */
+
+.form-group input:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.15);
+}
+
+
+/* ===== BUTTON ===== */
+
+.btn-submit {
+    margin-top: 10px;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #28a745, #218838);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.btn-submit:hover {
+    transform: scale(1.03);
+    background: linear-gradient(135deg, #218838, #1e7e34);
+}
+
+
+/* ===== ANIMATION ===== */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

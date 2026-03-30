@@ -30,7 +30,8 @@ const DangNhap: React.FC = () => {
                         return respone.json();
 
                     } else {
-                        setThongBao("Đăng nhập thất bại");
+                        alert(respone) ; 
+                        
                         throw new Error("Đăng nhập thát bại");
                     }
                 }
@@ -46,7 +47,7 @@ const DangNhap: React.FC = () => {
                     navigate("/") ; 
                 }
             ).catch(error => {
-                console.error("đăng nhập thất bại", error);
+                alert(error);
                 setThongBao("Đăng nhập thất bại , vui lông kiểm tra lại tài khoản hoặc mật khẩu");
             })
     }

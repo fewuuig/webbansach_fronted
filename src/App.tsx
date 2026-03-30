@@ -29,6 +29,9 @@ import { Chat } from 'react-bootstrap-icons';
 import StatDashboard from './layouts/stats/StatDashboard';
 import CheckUsername from './layouts/user/CheckUsername';
 import CheckPassword from './layouts/user/Checkpassword';
+import DisableAccount from './layouts/admin/account/DisableAccount';
+import UpdateBook from './layouts/admin/book/UpdateBook';
+import ThemMaGiamGia from './layouts/admin/voucher/ThemMaGiamGia';
 
 
 
@@ -36,15 +39,21 @@ import CheckPassword from './layouts/user/Checkpassword';
 
 function App() {
   const [tuKhoaTimKiem, setTuKhoatimKiem] = useState('');
+  const [filter, setFilter] = useState({
+    giaMin: "",
+    giaMax: "",
+    theLoai: "",
+    tacGia: ""
+  });
   // bản thân setTuKhoaTimKiem nó giống như một hmaf vậy 
   return (
 
     <div className='App'>
       <BrowserRouter>
-        <Navbar tuKhoaTimKiem={tuKhoaTimKiem} setTuKhoaTimKiem={setTuKhoatimKiem} />
+        <Navbar tuKhoaTimKiem={tuKhoaTimKiem} setTuKhoaTimKiem={setTuKhoatimKiem} filter ={filter} setFilter ={setFilter} />
         <Routes>
-          <Route path='/' element={<HomePage tuKhoaTimKiem={tuKhoaTimKiem} setTuKhoaTimKiem={setTuKhoatimKiem} />} />
-          <Route path='/:maTheLoai' element={<HomePage tuKhoaTimKiem={tuKhoaTimKiem} setTuKhoaTimKiem={setTuKhoatimKiem} />} />
+          <Route path='/' element={<HomePage tuKhoaTimKiem={tuKhoaTimKiem} setTuKhoaTimKiem={setTuKhoatimKiem} filter={filter}/>} />
+          <Route path='/:maTheLoai' element={<HomePage tuKhoaTimKiem={tuKhoaTimKiem} setTuKhoaTimKiem={setTuKhoatimKiem} filter={filter} />} />
           <Route path='/sach/:maSach' element={<ChiTietSanPham />}></Route>
           <Route path='/dang-ky' element={<DangKyNguoiDung />} />
           <Route path='/kich-hoat/:email/:ma-kich-hoat' element={<KichHoatTaiKhoan />} />
@@ -59,9 +68,12 @@ function App() {
           <Route path='/checkout/chi-tiet-don' element={<ChiTietDon />} />
           <Route path='/chat/users' element={<DanhSachChat />} />
           <Route path='/chat/users/:username' element={<ChatWS />} />
-          <Route path='/stats' element ={<StatDashboard/>}/>
-          <Route path='/account/loggin' element={<CheckUsername/>}/>
-          <Route path='/account/password' element={<CheckPassword/>}/>
+          <Route path='/stats' element={<StatDashboard />} />
+          <Route path='/account/loggin' element={<CheckUsername />} />
+          <Route path='/account/password' element={<CheckPassword />} />
+          <Route path='/account/disable' element={<DisableAccount />} />
+          <Route path='/book/update' element={<UpdateBook/>} />
+          <Route path='/vouchers/add-voucher' element={<ThemMaGiamGia/>} />
         </Routes>
 
         <Footer />

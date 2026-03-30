@@ -4,29 +4,35 @@ import Carousell from "./component/Carousell";
 
 import DanhSachSanPham from "../product/DanhSachSanPham";
 import { useParams } from "react-router-dom";
-interface HomePage{
-    tuKhoaTimKiem : string ; 
-    setTuKhoaTimKiem : any ; 
+interface HomePage {
+    tuKhoaTimKiem: string;
+    setTuKhoaTimKiem: any;
+    filter: {
+        giaMin: string;
+        giaMax: string;
+        theLoai: string;
+        tacGia: string;
+    };
 }
 
-const HomePage:React.FC<HomePage> =({tuKhoaTimKiem , setTuKhoaTimKiem})=>  {
-    const {maTheLoai} = useParams() ; 
-    let maTheLoaiNumber = 0 ; 
-    try{
-        maTheLoaiNumber = parseInt(maTheLoai + ' ') ; 
-    }catch(error){
-        maTheLoaiNumber = 0; 
-        console.error(error) ; 
+const HomePage: React.FC<HomePage> = ({ tuKhoaTimKiem, setTuKhoaTimKiem ,filter}) => {
+    const { maTheLoai } = useParams();
+    let maTheLoaiNumber = 0;
+    try {
+        maTheLoaiNumber = parseInt(maTheLoai + ' ');
+    } catch (error) {
+        maTheLoaiNumber = 0;
+        console.error(error);
     }
 
-    if(Number.isNaN(maTheLoaiNumber)){
-        maTheLoaiNumber = 0 ;
+    if (Number.isNaN(maTheLoaiNumber)) {
+        maTheLoaiNumber = 0;
     }
     return (
         <div>
             <Bannerr />
             <Carousell />
-            <DanhSachSanPham tuKhoaTimKiem = {tuKhoaTimKiem} maTheLoaiNumber={maTheLoaiNumber} setTuKhoaTimKiem={setTuKhoaTimKiem}/>
+            <DanhSachSanPham tuKhoaTimKiem={tuKhoaTimKiem} maTheLoaiNumber={maTheLoaiNumber} setTuKhoaTimKiem={setTuKhoaTimKiem} filter ={filter}/>
         </div>
     );
 }

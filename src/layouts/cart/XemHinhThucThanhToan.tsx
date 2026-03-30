@@ -2,14 +2,15 @@ import React, { useEffect, useState } from "react";
 import { layDiaChiGiaoHangCuaNguoiDung } from "../../api/DiaChiGiaoHang";
 import { NavLink } from "react-router-dom";
 import { layTatCaHinhThucThanhToan } from "../../api/HinhThucThanhToanApi";
+import "./ThanhToan.css";
 interface HinhThucThanhToan {
-    maHinhThucThanhToan : number , 
-    moTa : string , 
-    tenHinhThucThanhToan : string 
+    maHinhThucThanhToan: number,
+    moTa: string,
+    tenHinhThucThanhToan: string
 }
 interface Props {
     maHinhThucThanhToan: (number | null),
-    setMaHinhThucThanhToan: any, 
+    setMaHinhThucThanhToan: any,
 }
 const XemHinhThucThanhToan: React.FC<Props> = ({ maHinhThucThanhToan, setMaHinhThucThanhToan }) => {
     const [danhSachHinhThucThanhToan, setDanhSachHinhThucThanhToan] = useState<HinhThucThanhToan[]>([]);
@@ -26,33 +27,56 @@ const XemHinhThucThanhToan: React.FC<Props> = ({ maHinhThucThanhToan, setMaHinhT
         )
     }, [])
     console.log(danhSachHinhThucThanhToan);
-    const danhSachHienThi =hientatCa? danhSachHinhThucThanhToan : danhSachHinhThucThanhToan.slice(0,1) ; 
+    const danhSachHienThi = hientatCa ? danhSachHinhThucThanhToan : danhSachHinhThucThanhToan.slice(0, 1);
     return (
-        <div>
-            {
-                danhSachHienThi.map(thanhToan => (
-                    <label key={thanhToan.maHinhThucThanhToan}>
+        <div className="payment-container">
+
+            {danhSachHienThi.map(thanhToan => (
+                <div
+                    key={thanhToan.maHinhThucThanhToan}
+                    className={`payment-item ${maHinhThucThanhToan === thanhToan.maHinhThucThanhToan ? "active" : ""
+                        }`}
+                    onClick={() =>
+                        setMaHinhThucThanhToan(thanhToan.maHinhThucThanhToan)
+                    }
+                >
+                    <div className="payment-header">
                         <input
                             type="radio"
-                            name="thanhToan"
-                            checked={maHinhThucThanhToan === thanhToan.maHinhThucThanhToan}
-                            onChange={() => setMaHinhThucThanhToan(thanhToan.maHinhThucThanhToan)}
+                            checked={
+                                maHinhThucThanhToan === thanhToan.maHinhThucThanhToan
+                            }
+                            readOnly
                         />
-                        <span className="ms-2">
-                            {thanhToan.tenHinhThucThanhToan} ({thanhToan.moTa} )
-                        </span>
-                        <br></br>
-                    </label>
-                    
 
-                ))
-            }
-           
-            {
-                danhSachHinhThucThanhToan.length > 1 && (
-                    <button type="button" className="btn btn-link p-0" onClick={()=>setHienTatCa(!hientatCa)}>{hientatCa ? "Ẩn bớt" : "Xem thêm"}</button>
-                )
-            }
+                        <div className="payment-title">
+                            <span className="name">
+                                {thanhToan.tenHinhThucThanhToan}
+                            </span>
+                            <span className="desc">
+                                {thanhToan.moTa}
+                            </span>
+                        </div>
+                    </div>
+
+                    {/* xổ xuống khi chọn */}
+                    {maHinhThucThanhToan === thanhToan.maHinhThucThanhToan && (
+                        <div className="payment-detail">
+                            💳 Thanh toán an toàn & bảo mật <br />
+                            🔒 Hỗ trợ nhiều phương thức tiện lợi
+                        </div>
+                    )}
+                </div>
+            ))}
+
+            {danhSachHinhThucThanhToan.length > 1 && (
+                <button
+                    className="btn-toggle"
+                    onClick={() => setHienTatCa(!hientatCa)}
+                >
+                    {hientatCa ? "Ẩn bớt ▲" : "Xem thêm ▼"}
+                </button>
+            )}
         </div>
     );
 }

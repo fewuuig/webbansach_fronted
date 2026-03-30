@@ -3,6 +3,7 @@ import MotHinhAnhCuaSach from "../product/components/MotHinhAnhCuaSach";
 import { error } from "console";
 import { useEffect, useState } from "react";
 import { viewCart } from "../../api/SachTrongKho";
+import dinhDangSo from "../utils/DinhDangSo";
 interface ViewCart {
     maGioHangSach: number,
     maSach: number,
@@ -135,9 +136,9 @@ const Cart: React.FC = () => {
 
                                 {/* Giá */}
                                 <div className="col-4 text-end">
-                                    <p className="mb-1">Giá: {sach.giaBan}</p>
+                                    <p className="mb-1">Giá: {dinhDangSo(sach.giaBan)} đ</p>
                                     <p className="fw-bold text-danger">
-                                        Tổng: {sach.tongGia}
+                                        Tổng: {dinhDangSo(sach.tongGia)} đ
                                     </p>
                                 </div>
                             </div>

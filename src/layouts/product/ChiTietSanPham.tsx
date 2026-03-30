@@ -121,7 +121,7 @@ const ChiTietSanPham: React.FC = () => {
     }
     if (!sach) {
         return (
-            <div>sáchk hông tồn tại</div>
+            <div>sách không tồn tại</div>
         );
     }
     const guiDanhGia =async ()=>{
@@ -223,19 +223,19 @@ const ChiTietSanPham: React.FC = () => {
                 </div>
             </div>
 
-            {/* ====== ĐÁNH GIÁ ====== */}
+
             <div className="mt-5">
 
                 <h4 className="fw-bold mb-4">Đánh giá sản phẩm</h4>
 
-                {/* FORM VIẾT ĐÁNH GIÁ */}
+
                 <div className="border rounded p-4 mb-4 bg-light">
 
                     <h6 className="fw-bold mb-3">Viết đánh giá của bạn</h6>
 
                     <div className="d-flex align-items-start">
 
-                        {/* AVATAR */}
+
                         <img
                             src={thongTinNguoiDung?.anhDaiDien}
                             alt="avatar"
@@ -278,7 +278,7 @@ const ChiTietSanPham: React.FC = () => {
                     </div>
                 </div>
 
-                {/* DANH SÁCH ĐÁNH GIÁ */}
+    
                 <DanhGiaSanPham maSach={maSachNumber} reloadDanhGia={reloadDanhGia} setReloadDanhGia = {setReloadDanhGia}/>
 
             </div>

@@ -124,7 +124,7 @@ const UserProfile = () => {
                   className="action-btn logout-btn"
                   onClick={handleDangXuat}
                 >
-                  🚪 Đăng xuất
+                  ⇨ Đăng xuất
                 </button>
               </>
             ) : (

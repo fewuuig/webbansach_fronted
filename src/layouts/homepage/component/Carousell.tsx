@@ -5,6 +5,7 @@ import { lay3SachMoiNhat } from "../../../api/BookApi";
 import BookModel from "../../../model/BookModel";
 import { error } from "console";
 import CarousellItem from "./CarousellItem";
+import "./Carousel.css";
 const Carousell: React.FC = () => {
   const [danhSachSanPham, setDanhSachSanPham] = useState<BookModel[]>([]);
   const [dangTaiDuLieu, setDangTaiDuLieu] = useState(true);
@@ -12,17 +13,17 @@ const Carousell: React.FC = () => {
   useEffect(() => {
     lay3SachMoiNhat().then(
       sachData => {
-        setDanhSachSanPham(sachData.ketQua);
+        setDanhSachSanPham(sachData);
         setDangTaiDuLieu(false);
       }
     ).catch(
       (error) => {
         setBaoLoi(error.message);
-        setDangTaiDuLieu(false);
+        setDangTaiDuLieu(true);
       }
     )
-  }, []
-  );
+  },[]);
+  console.log(danhSachSanPham);
   if (dangTaiDuLieu) {
     return (
       <div><h1>dang tai du lieu</h1></div>
@@ -38,12 +39,8 @@ const Carousell: React.FC = () => {
   return (
 
     <div>
-      <div id="carouselExampleDark" className="carousel carousel-dark slide">
-        {/* <div className="carousel-inner">
-          <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
-          <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-          <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div> */}
+      <div id="carouselExampleDark" className="carousel carousel-dark slide carousel-slide">
+        
         <div className="carousel-inner">
           <div className="carousel-item active" data-bs-interval="10000">
             <CarousellItem key={0} sach = {danhSachSanPham[0]} />

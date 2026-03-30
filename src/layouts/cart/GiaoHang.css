@@ -1,0 +1,109 @@
+/* container */
+
+.shipping-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+/* item */
+
+.shipping-item {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 12px 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #fff;
+}
+
+
+/* hover */
+
+.shipping-item:hover {
+    border-color: #1976d2;
+    background: #f5faff;
+}
+
+
+/* active */
+
+.shipping-item.active {
+    border: 2px solid #1976d2;
+    background: #eef5ff;
+}
+
+
+/* header */
+
+.shipping-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+/* title */
+
+.shipping-title {
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* tên */
+
+.shipping-title .name {
+    font-weight: 600;
+}
+
+
+/* mô tả */
+
+.shipping-title .desc {
+    font-size: 13px;
+    color: #666;
+}
+
+
+/* phần xổ xuống */
+
+.shipping-detail {
+    margin-top: 10px;
+    padding: 10px;
+    background: #f1f6ff;
+    border-radius: 8px;
+    font-size: 13px;
+    animation: fadeDown 0.3s ease;
+}
+
+
+/* animation */
+
+@keyframes fadeDown {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* nút xem thêm */
+
+.btn-toggle {
+    margin-top: 5px;
+    border: none;
+    background: none;
+    color: #1976d2;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-toggle:hover {
+    text-decoration: underline;
+}

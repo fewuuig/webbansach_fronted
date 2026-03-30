@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { getAllMessagesOfUser } from "../api/AllMessageOfUser";
 
 interface ChatMessage {
+  id?: string;
   sender: string;
   content: string;
   timestamp: string;
@@ -22,24 +23,27 @@ const ChatWS: React.FC = () => {
   const [loadingMore, setLoadingMore] = useState(false);
 
   const chatRef = useRef<HTMLDivElement>(null);
-  const bottomRef = useRef<HTMLDivElement>(null);
 
   const token = localStorage.getItem("accessToken");
 
-  // 🔥 decode sender
+  // decode sender
   const sender = useMemo(() => {
     if (!token) return null;
     const decoded: any = jwtDecode(token);
     return decoded.sub;
   }, [token]);
 
-  // 🔥 util: sort + dedupe
+  // key unique
+  const getKey = (m: ChatMessage) => {
+    return m.id || `${m.timestamp}_${m.sender}_${m.content}`;
+  };
+
+  // normalize: dedupe + sort
   const normalizeMessages = (list: ChatMessage[]) => {
     const map = new Map<string, ChatMessage>();
 
     list.forEach((m) => {
-      const key = m.timestamp + m.sender + m.content;
-      map.set(key, m);
+      map.set(getKey(m), m);
     });
 
     return Array.from(map.values()).sort(
@@ -49,25 +53,22 @@ const ChatWS: React.FC = () => {
     );
   };
 
-  // 🔥 websocket
+  // 🔥 websocket (KHÔNG scroll nữa)
   useEffect(() => {
     if (!token) return;
 
     connectWebSocket(
       token,
       (message: ChatMessage) => {
-        setMessages((prev) => normalizeMessages([...prev, message]));
-
-        // auto scroll xuống
-        setTimeout(() => {
-          bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-        }, 50);
+        setMessages((prev) => {
+          return normalizeMessages([...prev, message]);
+        });
       },
       () => {}
     );
   }, [token]);
 
-  // 🔥 load message (pagination)
+  // load message (pagination)
   useEffect(() => {
     if (!sender || !sendToUser) return;
 
@@ -85,7 +86,7 @@ const ChatWS: React.FC = () => {
           return normalizeMessages(merged);
         });
 
-        // 🔥 giữ vị trí scroll (không giật)
+        // giữ vị trí scroll (khi load thêm)
         setTimeout(() => {
           if (div) {
             const newHeight = div.scrollHeight;
@@ -97,7 +98,7 @@ const ChatWS: React.FC = () => {
       .finally(() => setLoadingMore(false));
   }, [sendToUser, sender, page]);
 
-  // 🔥 auto load khi scroll lên top
+  // auto load khi scroll lên top
   useEffect(() => {
     const div = chatRef.current;
     if (!div) return;
@@ -112,26 +113,12 @@ const ChatWS: React.FC = () => {
     return () => div.removeEventListener("scroll", handleScroll);
   }, [loadingMore]);
 
-  // 🔥 gửi tin nhắn
+  // gửi tin nhắn (chờ websocket trả về)
   const handleSend = () => {
-    if (!input.trim()) return;
-
-    const newMsg: ChatMessage = {
-      sender: sender!,
-      content: input,
-      timestamp: new Date().toISOString(),
-    };
-
-    // 🔥 optimistic UI
-    setMessages((prev) => normalizeMessages([...prev, newMsg]));
+    if (!input.trim() || !sender) return;
 
     sendMessageToUser(input, sendToUser, sender);
     setInput("");
-
-    // scroll xuống luôn
-    setTimeout(() => {
-      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 50);
   };
 
   return (
@@ -140,16 +127,15 @@ const ChatWS: React.FC = () => {
         <div className="chat-header">Chat with seller</div>
 
         <div className="chat-messages" ref={chatRef}>
-          {/* 🔼 load thêm */}
           <div style={{ textAlign: "center", margin: "10px" }}>
             <button onClick={() => setPage((prev) => prev + 1)}>
               {loadingMore ? "Đang tải..." : "↑ Xem thêm tin nhắn"}
             </button>
           </div>
 
-          {messages.map((msg, index) => (
+          {messages.map((msg) => (
             <div
-              key={index}
+              key={getKey(msg)}
               className={`chat-message ${
                 msg.sender === sender ? "own" : ""
               }`}
@@ -160,8 +146,6 @@ const ChatWS: React.FC = () => {
               </div>
             </div>
           ))}
-
-          <div ref={bottomRef} />
         </div>
 
         <div className="chat-input">
@@ -178,4 +162,3 @@ const ChatWS: React.FC = () => {
 };
 
 export default ChatWS;
-

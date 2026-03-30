@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { layDiaChiGiaoHangCuaNguoiDung } from "../../api/DiaChiGiaoHang";
 import { NavLink } from "react-router-dom";
 import { layTatCaHinhThucGiaoHang } from "../../api/HinhThucGiaoHang";
-interface HinhThucGiaoHang{
-      maHinhThucGiaoHang : number, 
-      moTa : string , 
-      tenHinhThucGiaoHang : string
+import "./GiaoHang.css" ;
+interface HinhThucGiaoHang {
+    maHinhThucGiaoHang: number,
+    moTa: string,
+    tenHinhThucGiaoHang: string
 }
 interface Props {
     maHinhThucGiaoHang: (number | null),
@@ -27,28 +28,46 @@ const XemHinhThucGiaoHang: React.FC<Props> = ({ maHinhThucGiaoHang, setMaHinhThu
     }, [])
     const danhSachHienThi = hientatCa ? danhSachHinhThucGiaoHang : danhSachHinhThucGiaoHang.slice(0, 1); // chỉ hiện 1 cái 
     return (
-        <div>
-            {
-                danhSachHienThi.map(giaoHang => (
-                    <label key={giaoHang.maHinhThucGiaoHang}>
+        <div className="shipping-container">
+
+            {danhSachHienThi.map(giaoHang => (
+                <div
+                    key={giaoHang.maHinhThucGiaoHang}
+                    className={`shipping-item ${maHinhThucGiaoHang === giaoHang.maHinhThucGiaoHang ? "active" : ""
+                        }`}
+                    onClick={() => setMaHinhThucGiaoHang(giaoHang.maHinhThucGiaoHang)}
+                >
+                    <div className="shipping-header">
                         <input
                             type="radio"
-                            name={`${giaoHang.maHinhThucGiaoHang}`}
                             checked={maHinhThucGiaoHang === giaoHang.maHinhThucGiaoHang}
-                            onChange={() => setMaHinhThucGiaoHang(giaoHang.maHinhThucGiaoHang)}
+                            readOnly
                         />
-                        <span className="ms-2">
-                            <p>{giaoHang.tenHinhThucGiaoHang} ({giaoHang.moTa})</p>
-                        </span>
-                    </label>
 
-                ))
-            }
-            {
-                danhSachHinhThucGiaoHang.length > 1 && (
-                    <button type="button" className="btn btn-link p-0" onClick={()=>setHienTatCa(!hientatCa)}>{hientatCa ? "Ẩm bớt" : "Xem thêm"}</button>
-                )
-            }
+                        <div className="shipping-title">
+                            <span className="name">{giaoHang.tenHinhThucGiaoHang}</span>
+                            <span className="desc">{giaoHang.moTa}</span>
+                        </div>
+                    </div>
+
+                    {/* xổ xuống khi chọn */}
+                    {maHinhThucGiaoHang === giaoHang.maHinhThucGiaoHang && (
+                        <div className="shipping-detail">
+                            🚚 Giao hàng dự kiến trong 2-5 ngày <br />
+                            💰 Phí ship sẽ được tính ở bước thanh toán
+                        </div>
+                    )}
+                </div>
+            ))}
+
+            {danhSachHinhThucGiaoHang.length > 1 && (
+                <button
+                    className="btn-toggle"
+                    onClick={() => setHienTatCa(!hientatCa)}
+                >
+                    {hientatCa ? "Ẩn bớt ▲" : "Xem thêm ▼"}
+                </button>
+            )}
         </div>
     );
 }

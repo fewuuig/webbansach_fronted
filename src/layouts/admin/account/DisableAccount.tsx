@@ -1,0 +1,129 @@
+import React, { useState } from "react";
+import { layThongTinCaNhan1User } from "../../../api/ThongTinCaNhanApi";
+
+interface ThongTinTaiKhoan {
+    ten: string;
+    hoDem: string;
+    gioiTinh: string;
+    anhDaiDien: string;
+    email: string;
+    tenDangNhap: string;
+    soDienThoai: string;
+}
+
+const DisableAccount: React.FC = () => {
+    const accessToken = localStorage.getItem("accessToken");
+
+    const [username, setUsername] = useState<string>("");
+    const [message, setMessage] = useState("");
+    const [profileUser, setProfileUser] = useState<ThongTinTaiKhoan | null>(null);
+    const [confirmed, setConfirmed] = useState(false);
+
+    // Tìm user
+    const handleSearchUser = async () => {
+        if (!username.trim()) {
+            setMessage("Vui lòng nhập tên tài khoản!");
+            return;
+        }
+
+        try {
+            const data = await layThongTinCaNhan1User(username);
+            setProfileUser(data);
+            setConfirmed(false); // reset xác nhận
+            setMessage("");
+        } catch (error) {
+            setProfileUser(null);
+            setMessage("Không tìm thấy user!");
+            return ;
+        }
+    };
+
+    //  Disable
+    const handleDisable = async () => {
+        try {
+            const response = await fetch(
+                "http://localhost:8080/tai-khoan/disable",
+                {
+                    method: "PUT",
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        tenDangNhap: username
+                    })
+                }
+            );
+
+            if (response.ok) {
+                setMessage(" Khóa tài khoản thành công!");
+                setProfileUser(null);
+                setUsername("");
+                setConfirmed(false);
+            } else {
+                const err = await response.json() ; 
+                setMessage( err.error);
+            }
+        } catch (error) {
+            setMessage("Không thể kết nối server!");
+        }
+    };
+
+    return (
+        <div className="container mt-4">
+            <div className="card p-4 shadow" style={{ maxWidth: "500px", margin: "auto" }}>
+                <h5 className="mb-3 text-center">Khóa tài khoản</h5>
+
+                {/* INPUT + SEARCH */}
+                <div className="d-flex gap-2 mb-3">
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Nhập tên tài khoản..."
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                    <button className="btn btn-primary" onClick={handleSearchUser}>
+                        Tìm
+                    </button>
+                </div>
+
+                {/* PROFILE USER */}
+                {profileUser && (
+                    <div className="card p-3 mb-3 bg-light">
+                        <p><b>Họ tên:</b> {profileUser.hoDem} {profileUser.ten}</p>
+                        <p><b>Email:</b> {profileUser.email}</p>
+                        <p><b>SĐT:</b> {profileUser.soDienThoai}</p>
+                        <p><b>Giới tính:</b> {profileUser.gioiTinh}</p>
+
+                        {/* CONFIRM */}
+                        {!confirmed ? (
+                            <button
+                                className="btn btn-warning w-100"
+                                onClick={() => setConfirmed(true)}
+                            >
+                                Xác nhận khóa tài khoản
+                            </button>
+                        ) : (
+                            <button
+                                className="btn btn-danger w-100"
+                                onClick={handleDisable}
+                            >
+                                Vô hiệu hóa tài khoản
+                            </button>
+                        )}
+                    </div>
+                )}
+
+                {/* MESSAGE */}
+                {message && (
+                    <div className="text-center mt-2">
+                        {message}
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+};
+
+export default DisableAccount;

@@ -1,0 +1,109 @@
+/* container */
+
+.payment-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+/* item */
+
+.payment-item {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 12px 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #fff;
+}
+
+
+/* hover */
+
+.payment-item:hover {
+    border-color: #28a745;
+    background: #f4fff6;
+}
+
+
+/* active */
+
+.payment-item.active {
+    border: 2px solid #28a745;
+    background: #e9f9ee;
+}
+
+
+/* header */
+
+.payment-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+/* title */
+
+.payment-title {
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* tên */
+
+.payment-title .name {
+    font-weight: 600;
+}
+
+
+/* mô tả */
+
+.payment-title .desc {
+    font-size: 13px;
+    color: #666;
+}
+
+
+/* xổ xuống */
+
+.payment-detail {
+    margin-top: 10px;
+    padding: 10px;
+    background: #f0fff4;
+    border-radius: 8px;
+    font-size: 13px;
+    animation: fadeDown 0.3s ease;
+}
+
+
+/* reuse animation */
+
+@keyframes fadeDown {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* nút */
+
+.btn-toggle {
+    margin-top: 5px;
+    border: none;
+    background: none;
+    color: #28a745;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-toggle:hover {
+    text-decoration: underline;
+}

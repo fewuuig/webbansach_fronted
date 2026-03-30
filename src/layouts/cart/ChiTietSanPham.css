@@ -1,0 +1,93 @@
+/* container */
+
+.checkout-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+
+/* card tổng */
+
+.checkout-card {
+    width: 900px;
+    background: #fff;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+}
+
+
+/* LEFT */
+
+.left-panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid #eee;
+}
+
+
+/* ảnh */
+
+.left-panel img {
+    max-height: 300px;
+    width: auto;
+    object-fit: contain;
+}
+
+
+/* RIGHT */
+
+.right-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding-left: 20px;
+}
+
+
+/* info */
+
+.book-info {
+    padding: 10px 0;
+}
+
+.book-name {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.book-price span {
+    color: #e53935;
+    font-weight: bold;
+}
+
+
+/* tổng tiền */
+
+.total-price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #d32f2f;
+}
+
+
+/* button */
+
+.btn-order {
+    margin-top: 10px;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #28a745;
+    color: white;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.btn-order:hover {
+    background: #218838;
+    transform: scale(1.03);
+}

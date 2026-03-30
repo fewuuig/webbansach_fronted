@@ -1,0 +1,124 @@
+.carousel-img {
+    max-height: 230px;
+    /* giới hạn chiều cao */
+    width: auto;
+    /* giữ tỉ lệ gốc */
+    height: auto;
+    /* 🔥 quan trọng */
+    object-fit: contain;
+    /* 🔥 giữ nguyên ảnh */
+    border-radius: 12px;
+}
+
+.col-md-5 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* container info */
+
+.col-md-7 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 20px;
+}
+
+
+/* TITLE */
+
+.book-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 8px;
+    /* giới hạn 2 dòng */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+
+/* AUTHOR */
+
+.book-author {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+
+/* RATING */
+
+.book-rating {
+    font-size: 14px;
+    color: #f59e0b;
+    margin-bottom: 8px;
+}
+
+
+/* PRICE BLOCK */
+
+.book-price {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+
+/* GIÁ BÁN (nổi bật) */
+
+.gia-ban {
+    color: #595a4f;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+/* GIÁ NIÊM YẾT */
+
+.gia-niem-yet {
+    font-size: 14px;
+    color: #999;
+    text-decoration: line-through;
+}
+
+
+/* MÔ TẢ */
+
+.book-desc {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.5;
+    /* giới hạn 3 dòng */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+
+/* spacing tổng */
+
+.carousel-item-custom {
+    padding: 30px 40px;
+}
+
+
+/* hover nhẹ cho text block */
+
+.carousel-item-custom:hover .book-title {
+    color: #1976d2;
+    transition: 0.3s;
+}
+
+.discount-badge {
+    background: #7ab390;
+    color: white;
+    font-size: 12px;
+    padding: 3px 6px;
+    border-radius: 6px;
+}
