@@ -53,9 +53,12 @@ const UserProfile = () => {
   }, [accessToken]);
   // login
   const handleDangNhap = () => {
-    navigate("/account/loggin");
+    navigate("/dang-nhap");
   };
 
+  const handleDangKy = () => {
+    navigate("/dang-ky");
+  };
   // logout
   const handleDangXuat = async () => {
     const refreshToken = localStorage.getItem('refreshToken');
@@ -69,7 +72,7 @@ const UserProfile = () => {
     });
 
     localStorage.clear();
-    navigate("/account/username");
+    navigate("/");
   };
 
   return (
@@ -141,7 +144,7 @@ const UserProfile = () => {
                 Đăng nhập
               </button>
 
-              <button className="action-btn secondary-btn">
+              <button className="action-btn secondary-btn" onClick={handleDangKy}>
                 Đăng ký
               </button>
             </>

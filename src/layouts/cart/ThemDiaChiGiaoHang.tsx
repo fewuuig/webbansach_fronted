@@ -8,22 +8,32 @@ const ThemDiaChiGiaoHang: React.FC = () => {
     const handleThemDiaChi = async (e: FormEvent) => {
         e.preventDefault();
         const accessToken = localStorage.getItem("accessToken");
-        await fetch('http://localhost:8080/dia-chi/them-dia-chi-giao-hang', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`
-            },
-            body: JSON.stringify(
-                {
+        try {
+            const response = await fetch('http://localhost:8080/dia-chi/them-dia-chi-giao-hang', {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                },
+                body: JSON.stringify({
                     tinhOrCity: tinhOrCity,
                     quanOrHuyen: quanOrHuyen,
                     phuongOrXa: phuongOrXa,
                     soNha: soNha
-                }
-            )
-        })
-
+                })
+            });
+            if (response.ok) {
+                alert('Thêm địa chỉ thành công!');
+                setTinhOrCity("");
+                setQuanOrHuyen("");
+                setPhuongOrXa("");
+                setSoNha("");
+            } else {
+                alert('Thêm địa chỉ thất bại!');
+            }
+        } catch (error) {
+            alert('Có lỗi xảy ra khi thêm địa chỉ!');
+        }
     }
     return (
         <div className="address-container">

@@ -231,7 +231,7 @@ const Navbar: React.FC<NavbarProps> = (props) => {
                         <NavLink className="nav-link position-relative" to="/cart">
                             <i className="fas fa-shopping-cart fs-5"></i>
                             <span className="position-absolute top-0 start-100 translate-middle badge bg-danger">
-                                3
+                                
                             </span>
                         </NavLink>
 

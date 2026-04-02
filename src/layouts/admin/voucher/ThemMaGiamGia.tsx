@@ -14,11 +14,11 @@ export interface MaGiamGiaCuaUserResponeDTO {
     donGiaTu: number;
     trangThaiMaGiamGia: string;
     doiTuongApDungMa: string;
-    phanTramGiam?: number | string;
-    tienGiam?: number | string;
+    phanTramGiam?: number | string | null;
+    tienGiam?: number | string | null;
     gioiHanSoLuongDungUser?: number;
-    maGiamNguoiDung?: number; // Có thể backend trả về
-    daDung?: number; // Có thể backend trả về
+    maGiamNguoiDung?: number; 
+    daDung?: number; 
 }
 
 const initialFormState = {
@@ -72,11 +72,23 @@ const ThemMaGiamGia: React.FC = () => {
         setIsEditMode(true);
         setSelectedId(voucher.maGiam);
         
+        // Xử lý triệt để các trường tiền/phần trăm bị null từ Backend
+        let anToanPhanTram = voucher.phanTramGiam ?? "";
+        let anToanTienGiam = voucher.tienGiam ?? "";
+
+        if (voucher.loaiMaGiamGia === "PHAN_TRAM") {
+            anToanTienGiam = "";
+        } else if (voucher.loaiMaGiamGia === "TIEN") {
+            anToanPhanTram = "";
+        }
+
         setForm({ 
             ...initialFormState, 
             ...voucher,
             ngayBatDau: formatDateTimeArrayToString(voucher.ngayBatDau),
-            ngayHetHan: formatDateTimeArrayToString(voucher.ngayHetHan)
+            ngayHetHan: formatDateTimeArrayToString(voucher.ngayHetHan),
+            phanTramGiam: anToanPhanTram,
+            tienGiam: anToanTienGiam
         });
     };
 
@@ -111,8 +123,7 @@ const ThemMaGiamGia: React.FC = () => {
         e.preventDefault();
         const accessToken = localStorage.getItem("accessToken");
 
-        // 🌟 TẠO PAYLOAD SẠCH SẼ: Chỉ lấy đúng những field cần thiết
-        // Cố tình KHÔNG lôi maGiam, maGiamNguoiDung hay daDung vào đây
+  
         const payload = {
             tenMaGiamGia: form.tenMaGiamGia,
             ngayBatDau: form.ngayBatDau,
@@ -125,9 +136,10 @@ const ThemMaGiamGia: React.FC = () => {
             trangThaiMaGiamGia: form.trangThaiMaGiamGia,
             gioiHanSoLuongDungUser: form.gioiHanSoLuongDungUser,
             loaiMaGiamGia: form.loaiMaGiamGia,
-            // Xử lý logic loại mã luôn ở đây cho an toàn
-            phanTramGiam: form.loaiMaGiamGia === "PHAN_TRAM" ? form.phanTramGiam : "",
-            tienGiam: form.loaiMaGiamGia === "TIEN" ? form.tienGiam : "",
+            
+            // Ép giá trị không dùng thành null để SpringBoot không bị lỗi ép kiểu (Type Mismatch)
+            phanTramGiam: form.loaiMaGiamGia === "PHAN_TRAM" ? Number(form.phanTramGiam) : null,
+            tienGiam: form.loaiMaGiamGia === "TIEN" ? Number(form.tienGiam) : null,
         };
 
         const url = isEditMode 
@@ -142,7 +154,7 @@ const ThemMaGiamGia: React.FC = () => {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${accessToken}`,
                 },
-                body: JSON.stringify(payload), // Gửi payload sạch đi
+                body: JSON.stringify(payload), // Gửi payload siêu sạch đi
             });
 
             if (!response.ok) {

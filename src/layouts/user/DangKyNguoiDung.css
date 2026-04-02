@@ -1,0 +1,95 @@
+/* Đăng ký người dùng - Giao diện hiện đại */
+
+.register-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #e0e7ff 0%, #f0fdfa 100%);
+}
+
+.register-form-wrapper {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.10);
+    padding: 40px 48px 32px 48px;
+    width: 100%;
+    max-width: 540px;
+    margin: 32px 0;
+}
+
+.register-form-wrapper h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 24px;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.register-form-wrapper form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.register-form-wrapper input {
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    padding: 12px 16px;
+    font-size: 1.08rem;
+    margin-bottom: 0px;
+    transition: border 0.2s;
+    background: #f8fafc;
+}
+
+.register-form-wrapper input:focus {
+    border-color: #6366f1;
+    outline: none;
+    background: #fff;
+}
+
+.error-message {
+    color: #ef4444;
+    font-size: 0.97rem;
+    min-height: 18px;
+    margin-bottom: 2px;
+    margin-left: 2px;
+}
+
+.success-message {
+    color: #22c55e;
+    font-size: 1.08rem;
+    margin-top: 14px;
+    text-align: center;
+}
+
+.register-form-wrapper button[type="submit"] {
+    background: linear-gradient(90deg, #6366f1 0%, #06b6d4 100%);
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 12px 0;
+    width: 100%;
+    margin-top: 10px;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.10);
+    transition: background 0.2s;
+    cursor: pointer;
+}
+
+.register-form-wrapper button[type="submit"]:hover {
+    background: linear-gradient(90deg, #4f46e5 0%, #0ea5e9 100%);
+}
+
+@media (max-width: 600px) {
+    .register-form-wrapper {
+        padding: 24px 8px;
+        max-width: 98vw;
+    }
+    .register-form-wrapper input {
+        font-size: 1rem;
+        padding: 10px 10px;
+    }
+}

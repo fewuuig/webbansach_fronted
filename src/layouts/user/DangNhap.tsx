@@ -19,19 +19,23 @@ const DangNhap: React.FC = () => {
         password: password
     }
     const navigate = useNavigate() ; 
-    const handleOnSubmit = (event: React.FormEvent) => {
-        event.preventDefault()
-        fetch('http://localhost:8080/tai-khoan/dang-nhap', { method: 'POST', headers: { 'Content-type': 'application/json' }, body: JSON.stringify(account) })
+    const handleOnSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
+        const isUsernameValid = await handleCheckUsername();
+        if (!isUsernameValid) {
+            console.log(isUsernameValid);
+            setThongBao("username or password is incorrect");
+            return;
+        }
+        fetch('http://localhost:8080/tai-khoan/dang-nhap',
+            { method: 'POST', headers: { 'Content-type': 'application/json' }, body: JSON.stringify(account) })
             .then(
                 (respone) => {
                     if (respone.ok) {
                         setThongBao("Đăng nhập thành công");
-                      
                         return respone.json();
-
                     } else {
-                        alert(respone) ; 
-                        
+                        alert(respone);
                         throw new Error("Đăng nhập thát bại");
                     }
                 }
@@ -41,25 +45,27 @@ const DangNhap: React.FC = () => {
                     // lưu token vào localStorage
                     localStorage.setItem('accessToken', accessToken);
                     localStorage.setItem('refreshToken', refreshToken);
-
-                    
                     // điều hướng đến trang chính  hoặc trang nào đó sau khi đăng nhập thành công 
-                    navigate("/") ; 
+                    navigate("/");
                 }
             ).catch(error => {
                 alert(error);
                 setThongBao("Đăng nhập thất bại , vui lông kiểm tra lại tài khoản hoặc mật khẩu");
-            })
+            });
     }
-    const handleCheckUsername =async ()=>{
-        const respone = await fetch("http://localhost:8080/tai-khoan/check-username" , {
-            method:'GET' , 
-            body:JSON.stringify({
-                username : username 
-            })
-        })
-        if(respone.ok){
-            navigate("/account/passwork")
+    const handleCheckUsername = async (): Promise<boolean> => {
+        try {
+            const respone = await fetch("http://localhost:8080/tai-khoan/check-username?username=" + encodeURIComponent(username), {
+                method: 'GET'
+            });
+            if (!respone.ok) return false;
+            const data = await respone.json();
+            // Giả sử API trả về { exists: true/false } hoặc true/false trực tiếp
+            if (typeof data === 'boolean') return data;
+            if (typeof data.exists === 'boolean') return data.exists;
+            return false;
+        } catch {
+            return false;
         }
     }
     return (
