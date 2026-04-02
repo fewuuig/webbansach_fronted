@@ -34,7 +34,8 @@ export async function laySachVer2(param: string): Promise<SachTraVe> {
             soLuong: i.soLuong,
             tenTacGia: i.tenTacGia,
             trungBinhXepHang: i.trungBinhXepHang,
-            isbn : i.isbn
+            isbn : i.isbn,
+            hinhAnhDTOS: i.hinhAnhDTOS || []
 
         })
     }
@@ -59,7 +60,8 @@ async function laySach(params: string): Promise<SachTraVe> {
             soLuong: responeData[key].soLuong,
             tenTacGia: responeData[key].tenTacGia,
             trungBinhXepHang: responeData[key].trungBinhXepHang,
-            isbn : responeData[key].isbn
+            isbn : responeData[key].isbn , 
+            hinhAnhDTOS: responeData[key].hinhAnhDTOS || []
         });
     }
 
@@ -135,7 +137,8 @@ export async function layToanBoSachCategoryNotPage(categoryId: number): Promise<
                 soLuong: responeData[key].soLuong,
                 tenTacGia: responeData[key].tenTacGia,
                 trungBinhXepHang: responeData[key].trungBinhXepHang,
-                isbn : responeData[key].isbn
+                isbn : responeData[key].isbn,
+                hinhAnhDTOS: responeData[key].hinhAnhDTOS || []
             });
         }
     }
@@ -199,7 +202,8 @@ export async function layChiTietMotQuyenSach(maSach: number): Promise<BookModel 
                 soLuong: sachData.soLuong,
                 tenTacGia: sachData.tenTacGia,
                 trungBinhXepHang: sachData.trungBinhXepHang,
-                isbn : sachData.isbn
+                isbn : sachData.isbn,
+                hinhAnhDTOS: sachData.hinhAnhDTOS || []
             }
         } else {
             throw new Error("sách không tồn tại");
@@ -231,7 +235,8 @@ export async function layBookDeletde(maTheLoai : number): Promise<BookModel[]> {
                 soLuong: responeData[key].soLuong,
                 tenTacGia: responeData[key].tenTacGia,
                 trungBinhXepHang: responeData[key].trungBinhXepHang,
-                isbn : responeData[key].isbn
+                isbn : responeData[key].isbn ,
+                hinhAnhDTOS: responeData[key].hinhAnhDTOS || []
             });
         }
     }

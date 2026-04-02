@@ -15,7 +15,7 @@ const CarousellItem: React.FC<CarousellItem> = (props) => {
     const [layDuLieu, setLayDuLieu] = useState(true);
 
     useEffect(() => {
-        layAnhDauTienCuaMotQuyenSach(props.sach.maSach).then(
+        layAnhDauTienCuaMotQuyenSach(props.sach.maSach, 1).then(
             anhData => {
                 setDanhSachHinhAnh(anhData);
                 setLayDuLieu(false);

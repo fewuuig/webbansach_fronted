@@ -7,7 +7,7 @@ interface props{
 const MotHinhAnhCuaSach : React.FC<props> = (props)=>{
     const [hinhAnh , setHinhAnh] = useState<HinhAnhModel[]|null>(null) ;
     useEffect(()=>{
-        layAnhDauTienCuaMotQuyenSach(props.maSach).then(
+        layAnhDauTienCuaMotQuyenSach(props.maSach , 1).then(
             data=>{
                 setHinhAnh(data) ; 
             }

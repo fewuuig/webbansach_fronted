@@ -8,6 +8,8 @@ class BookModel {
     tenTacGia?: string;
     trungBinhXepHang?: number;
     isbn : string ; 
+    hinhAnhDTOS: never[];
+  
 
     constructor( isbn : string, maSach: number  ,tenSach: string , giaBan: number ,giaNiemYet: number ,moTa: string ,soLuong: number ,tenTacGia: string ,trungBinhXepHang: number ,){
         this.maSach = maSach ; 
@@ -19,6 +21,7 @@ class BookModel {
         this.tenTacGia =tenTacGia ; 
         this.trungBinhXepHang = trungBinhXepHang ; 
         this.isbn= isbn ;
+        this.hinhAnhDTOS = [] ;
     }
 
 }

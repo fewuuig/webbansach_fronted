@@ -15,7 +15,7 @@ const HinhAnhSach: React.FC<HinhAnhSach> = ({ maSach }) => {
     const [baoLoi, setBaoLoi] = useState(null);
     useEffect(() => {
 
-        layToanBoAnh(maSach).then(
+        layToanBoAnh(maSach, -1).then(
             anhData => {
                 setDanhSachHinhAnh(anhData);
                 setLayDuLieu(false);

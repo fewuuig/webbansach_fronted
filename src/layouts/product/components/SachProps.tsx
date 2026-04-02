@@ -23,7 +23,7 @@ const SachProps: React.FC<SachProps> = (props) => {
     const [wishLove, setWishLove] = useState(false);
     const toiDa =  props.sach.soLuong ;
     useEffect(() => {
-        layToanBoAnh(maSach).then(
+        layToanBoAnh(maSach , -1).then(
             hinhAnhData => {
                 setDanhSachHinhAnh(hinhAnhData);
                 setDangTaiDuLieu(false)
