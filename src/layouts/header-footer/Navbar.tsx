@@ -20,6 +20,9 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = (props) => {
+
+    
+
     // ================= SEARCH =================
     const tmpTuKhoaTimKiem = useRef("");
 
@@ -62,7 +65,7 @@ const Navbar: React.FC<NavbarProps> = (props) => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
-
+    
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
@@ -96,13 +99,15 @@ const Navbar: React.FC<NavbarProps> = (props) => {
                                 <li><NavLink className="dropdown-item" to="/2">Kinh tế</NavLink></li>
                                 <li><NavLink className="dropdown-item" to="/3">CNTT</NavLink></li>
                                 <li><NavLink className="dropdown-item" to="/4">Truyện tranh</NavLink></li>
+                                <li><NavLink className="dropdown-item" to="/5">Tâm lý kỹ năng</NavLink></li>
+
                             </ul>
                         </li>
 
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/danh-sach-yeu-thich">Yêu thích</NavLink>
                         </li>
-
+                        
                         <li>
                             <NavLink className="nav-link" to="/chat/users">Chat</NavLink>
                         </li>
@@ -200,6 +205,7 @@ const Navbar: React.FC<NavbarProps> = (props) => {
                                         <option value="2">Kinh tế</option>
                                         <option value="3">CNTT</option>
                                         <option value="4">Truyện tranh</option>
+                                        <option value="5">Tâm lý kỹ năng</option>
                                     </select>
 
                                     <button

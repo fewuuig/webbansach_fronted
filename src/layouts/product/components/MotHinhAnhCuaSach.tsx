@@ -13,7 +13,7 @@ const MotHinhAnhCuaSach : React.FC<props> = (props)=>{
             }
         )
 
-    }) 
+    },[]) 
     return (
         <div>
             {
