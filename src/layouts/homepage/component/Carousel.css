@@ -1,26 +1,51 @@
-/* làm mượt toàn bộ animation */
+.carousel-wrapper {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+    padding: 30px 0;
+    margin: 0 auto 50px auto;
+    max-width: 1100px;
+    position: relative;
+}
 
 .carousel-item {
-    transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
+    transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.6s ease-out;
 }
-
-
-/* hiệu ứng zoom nhẹ khi active */
-
-.carousel-item.active {
-    transform: scale(1.02);
-}
-
-
-/* giảm giật khi chuyển */
 
 .carousel-inner {
     overflow: hidden;
+    border-radius: 16px;
 }
 
+.carousel-control-prev, .carousel-control-next {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+    background-color: white;
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 1;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    margin: 0 15px; 
+    transition: all 0.3s ease;
+    z-index: 5;
+    border: 1px solid #f0f0f0;
+}
 
-/* hover pause + feel mượt hơn */
+.carousel-control-prev:hover, .carousel-control-next:hover {
+    background-color: #1976d2;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 20px rgba(25, 118, 210, 0.3);
+}
 
-.carousel:hover .carousel-item {
-    transition: transform 0.5s ease;
+.carousel-control-prev-icon, .carousel-control-next-icon {
+    filter: invert(1) grayscale(100);
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.carousel-control-prev:hover .carousel-control-prev-icon,
+.carousel-control-next:hover .carousel-control-next-icon {
+    filter: invert(0); 
 }

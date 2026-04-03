@@ -20,6 +20,7 @@ const UserProfile = () => {
   const navigate = useNavigate();
 
   const accessToken = localStorage.getItem("accessToken");
+  
   // toggle dropdown
   const toggleDropdown = () => {
     setIsOpen(prev => !prev);
@@ -51,14 +52,19 @@ const UserProfile = () => {
       setThongTinNguoiDung(null);
     });
   }, [accessToken]);
-  // login
-  const handleDangNhap = () => {
-    navigate("/dang-nhap");
+
+  // Điều hướng và đóng dropdown
+  const handleNavigation = (path: string) => {
+    setIsOpen(false); // Đóng menu thả xuống
+    navigate(path);   // Chuyển trang
   };
 
-  const handleDangKy = () => {
-    navigate("/dang-ky");
+  // login
+  const handleDangNhap = () => {
+    setIsOpen(false);
+    navigate("/account/loggin");
   };
+
   // logout
   const handleDangXuat = async () => {
     const refreshToken = localStorage.getItem('refreshToken');
@@ -72,7 +78,8 @@ const UserProfile = () => {
     });
 
     localStorage.clear();
-    navigate("/");
+    setIsOpen(false);
+    navigate("/account/username");
   };
 
   return (
@@ -87,9 +94,9 @@ const UserProfile = () => {
         {accessToken ? (
           thongTinNguoiDung ? (
             <img
-              src={thongTinNguoiDung.anhDaiDien}
+              src={thongTinNguoiDung.anhDaiDien || "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
               alt="Avatar"
-              className="rounded-circle"
+              className="rounded-circle shadow-sm"
               style={{ width: '30px', height: '30px', objectFit: 'cover' }}
             />
           ) : (
@@ -109,19 +116,29 @@ const UserProfile = () => {
               <>
                 <div className="dropdown-header">
                   <img
-                    src={thongTinNguoiDung.anhDaiDien}
+                    src={thongTinNguoiDung.anhDaiDien || "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
                     alt="Avatar"
-                    className="rounded-circle"
+                    className="rounded-circle shadow-sm"
                     style={{ width: '40px', height: '40px', objectFit: 'cover' }}
                   />
-                  <p className="user-name">
+                  <p className="user-name mt-2">
                     {thongTinNguoiDung.hoDem + " " + thongTinNguoiDung.ten}
                   </p>
                   <p className="user-email">{thongTinNguoiDung.email}</p>
                 </div>
 
-                <button className="action-btn">👤 Hồ sơ</button>
-                <button className="action-btn">⚙️ Cài đặt</button>
+                <button 
+                  className="action-btn" 
+                  onClick={() => handleNavigation("/user/profile")}
+                >
+                  👤 Hồ sơ của tôi
+                </button>
+                <button 
+                  className="action-btn" 
+                  onClick={() => handleNavigation("/user/settings")}
+                >
+                  ⚙️ Cài đặt hệ thống
+                </button>
 
                 <button
                   className="action-btn logout-btn"
@@ -131,7 +148,7 @@ const UserProfile = () => {
                 </button>
               </>
             ) : (
-              <div className="p-3 text-center">Đang tải...</div>
+              <div className="p-3 text-center text-muted">Đang tải...</div>
             )
           ) : (
             <>
@@ -140,11 +157,14 @@ const UserProfile = () => {
                 <p className="user-email">Vui lòng đăng nhập</p>
               </div>
 
-              <button className="action-btn primary-btn" onClick={handleDangNhap}>
+              <button className="action-btn primary-btn fw-bold rounded" onClick={handleDangNhap}>
                 Đăng nhập
               </button>
 
-              <button className="action-btn secondary-btn" onClick={handleDangKy}>
+              <button 
+                className="action-btn secondary-btn fw-bold rounded" 
+                onClick={() => handleNavigation("/dang-ky")}
+              >
                 Đăng ký
               </button>
             </>

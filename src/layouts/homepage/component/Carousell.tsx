@@ -6,6 +6,7 @@ import BookModel from "../../../model/BookModel";
 import { error } from "console";
 import CarousellItem from "./CarousellItem";
 import "./Carousel.css";
+
 const Carousell: React.FC = () => {
   const [danhSachSanPham, setDanhSachSanPham] = useState<BookModel[]>([]);
   const [dangTaiDuLieu, setDangTaiDuLieu] = useState(true);
@@ -37,33 +38,30 @@ const Carousell: React.FC = () => {
 
 
   return (
-
-    <div>
-      <div id="carouselExampleDark" className="carousel carousel-dark slide carousel-slide">
-        
-        <div className="carousel-inner">
-          <div className="carousel-item active" data-bs-interval="10000">
-            <CarousellItem key={0} sach = {danhSachSanPham[0]} />
+    <div className="container">
+      <div className="carousel-wrapper"> 
+        <div id="carouselExampleDark" className="carousel slide carousel-fade">
+          
+          <div className="carousel-inner">
+            <div className="carousel-item active" data-bs-interval="5000">
+              <CarousellItem key={0} sach={danhSachSanPham[0]} />
+            </div>
+            <div className="carousel-item " data-bs-interval="5000">
+              <CarousellItem key={1} sach={danhSachSanPham[1]} />
+            </div>
+            <div className="carousel-item " data-bs-interval="5000">
+              <CarousellItem key={2} sach={danhSachSanPham[2]} />
+            </div>
           </div>
-          <div className="carousel-item " data-bs-interval="10000">
-            <CarousellItem key={1} sach = {danhSachSanPham[1]} />
-          </div>
-          <div className="carousel-item " data-bs-interval="10000">
-            <CarousellItem key={2} sach = {danhSachSanPham[2]} />
-          </div>
+          <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+          </button>
+          <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+            <span className="carousel-control-next-icon" aria-hidden="true"></span>
+          </button>
         </div>
-        <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-          <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span className="visually-hidden">Previous</span>
-        </button>
-        <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-          <span className="carousel-control-next-icon" aria-hidden="true"></span>
-          <span className="visually-hidden">Next</span>
-        </button>
       </div>
     </div>
-
   );
 }
-
 export default Carousell;

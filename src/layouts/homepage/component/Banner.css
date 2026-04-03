@@ -1,66 +1,73 @@
-/* Import phông chữ từ Google Fonts */
+/* Import fonts: Playfair cho tiêu đề (Serif sang trọng) và Montserrat cho phụ đề/nút */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap');
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:ital,wght@0,700;1,500&display=swap');
-
-/* Nền Gradient rực rỡ và nghệ thuật */
-
-.hero-banner {
-    /* Gradient từ cam ấm sang hồng tím */
-    background: linear-gradient(135deg, #5c5655 0%, #868583 100%);
-    border-radius: 15px;
-    /* Bo góc cho mềm mại */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    margin: 0 1rem;
-    /* Thêm lề hai bên nếu muốn không dính sát mép */
+.hero-banner-container {
+    position: relative;
+    /* Dùng ảnh kệ sách làm nền */
+    background: url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=1920') center/cover no-repeat;
+    padding: 120px 0; 
+    border-radius: 0 0 24px 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    overflow: hidden;
 }
 
+.hero-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(18, 43, 50, 0.88); 
+}
 
-/* Phông chữ tiêu đề - Cổ điển & Sang trọng */
+.banner-content {
+    padding-top: 20px;
+}
 
 .banner-title {
     font-family: 'Playfair Display', serif;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
-    /* Đổ bóng chữ giúp dễ đọc hơn trên nền màu */
-    line-height: 1.4;
+    font-size: 3.5rem; 
+    font-weight: 700;
+    line-height: 1.25;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
 }
 
-
-/* Tên tác giả - In nghiêng và khoảng cách chữ rộng */
-
-.banner-author {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 1.5rem;
-    letter-spacing: 2px;
+.banner-subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
     opacity: 0.9;
+    letter-spacing: 2px;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
 }
-
-
-/* Nút bấm nổi bật */
 
 .banner-btn {
     font-family: 'Montserrat', sans-serif;
-    background-color: #917575;
-    /* Nút trắng trên nền màu */
-    color: #e9e9e9;
-    /* Chữ màu cam cho đồng bộ */
+    background-color: #f39c12; 
+    color: #fff;
     font-weight: 600;
-    padding: 12px 35px;
+    padding: 14px 40px;
     border-radius: 50px;
-    /* Bo tròn hoàn toàn */
     border: none;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 0.5px;
 }
 
-
-/* Hiệu ứng khi di chuột vào nút */
-
 .banner-btn:hover {
-    background-color: #343a40;
-    /* Đổi sang màu xám đen (dark) khi hover */
-    color: #ffffff;
+    background-color: #e67e22; 
+    color: #fff;
     transform: translateY(-3px);
-    /* Nút nảy lên nhẹ */
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 8px 20px rgba(243, 156, 18, 0.4) !important;
+}
+
+@media (max-width: 768px) {
+    .hero-banner-container {
+        padding: 80px 0;
+        border-radius: 0 0 16px 16px;
+    }
+    .banner-title {
+        font-size: 2.2rem;
+    }
+    .banner-subtitle {
+        font-size: 0.85rem;
+    }
 }

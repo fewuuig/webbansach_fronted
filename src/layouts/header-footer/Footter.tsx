@@ -1,112 +1,101 @@
 import React from "react";
-function Footer(){
-    return (
-        <div className="container">
-  <footer className="py-5">
-    <div className="row">
-      <div className="col-6 col-md-2 mb-3">
-        <h5>Section</h5>
-        <ul className="nav flex-column">
-          <li className="nav-item mb-2">
-            <a href="#" className="nav-link p-0 text-body-secondary">Home</a>
-          </li>
-          <li className="nav-item mb-2">
-            <a href="#" className="nav-link p-0 text-body-secondary">Features</a>
-          </li>
-          <li className="nav-item mb-2">
-            <a href="#" className="nav-link p-0 text-body-secondary">Pricing</a>
-          </li>
-          <li className="nav-item mb-2">
-            <a href="#" className="nav-link p-0 text-body-secondary">FAQs</a>
-          </li>
-          <li className="nav-item mb-2">
-            <a href="#" className="nav-link p-0 text-body-secondary">About</a>
-          </li>
-        </ul>
-      </div>
+import "./Footer.css";
 
-      <div className="col-6 col-md-2 mb-3">
-        <h5>Section</h5>
-        <ul className="nav flex-column">
-          <li className="nav-item mb-2">
-            <a href="#" className="nav-link p-0 text-body-secondary">Home</a>
-          </li>
-          <li className="nav-item mb-2">
-            <a href="#" className="nav-link p-0 text-body-secondary">Features</a>
-          </li>
-          <li className="nav-item mb-2">
-            <a href="#" className="nav-link p-0 text-body-secondary">Pricing</a>
-          </li>
-          <li className="nav-item mb-2">
-            <a href="#" className="nav-link p-0 text-body-secondary">FAQs</a>
-          </li>
-          <li className="nav-item mb-2">
-            <a href="#" className="nav-link p-0 text-body-secondary">About</a>
-          </li>
-        </ul>
-      </div>
-
-      <div className="col-6 col-md-2 mb-3">
-        <h5>Section</h5>
-        <ul className="nav flex-column">
-          <li className="nav-item mb-2">
-            <a href="#" className="nav-link p-0 text-body-secondary">Home</a>
-          </li>
-          <li className="nav-item mb-2">
-            <a href="#" className="nav-link p-0 text-body-secondary">Features</a>
-          </li>
-          <li className="nav-item mb-2">
-            <a href="#" className="nav-link p-0 text-body-secondary">Pricing</a>
-          </li>
-          <li className="nav-item mb-2">
-            <a href="#" className="nav-link p-0 text-body-secondary">FAQs</a>
-          </li>
-          <li className="nav-item mb-2">
-            <a href="#" className="nav-link p-0 text-body-secondary">About</a>
-          </li>
-        </ul>
-      </div>
-
-      <div className="col-md-5 offset-md-1 mb-3">
-        <form>
-          <h5>Subscribe to our newsletter</h5>
-          <p>Monthly digest of what's new and exciting from us.</p>
-
-          <div className="d-flex flex-column flex-sm-row w-100 gap-2">
-            <label  className="visually-hidden">
-              Email address
-            </label>
-            <input
-              id="newsletter1"
-              type="email"
-              className="form-control"
-              placeholder="Email address"
-              
-            />
-            <button className="btn btn-primary" type="button">Subscribe</button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <div className="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
-      <p>© 2026 Company, Inc. All rights reserved.</p>
-      <ul className="list-unstyled d-flex">
-        <li className="ms-3">
-          <a className="link-body-emphasis" href="#" aria-label="Instagram">
-            <i className="fas fa-twitter"></i>
-          </a>
-        </li>
-        <li className="ms-3">
-          <a className="link-body-emphasis" href="#" aria-label="Facebook">
-            <i className="fas fa-facebook"></i>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </footer>
-</div>
-
-    );
+interface SocialLink {
+  icon: string;
+  link: string;
 }
-export default Footer ; 
+
+const Footer: React.FC = () => {
+  const socialLinks: SocialLink[] = [
+    { icon: "fab fa-facebook-f", link: "#" },
+    { icon: "fab fa-twitter", link: "#" },
+    { icon: "fab fa-instagram", link: "#" },
+    { icon: "fab fa-linkedin-in", link: "#" },
+  ];
+
+  return (
+    <footer className="footer-premium pt-5 pb-4">
+      <div className="container">
+        <div className="row">
+          
+          {/* Cột 1: Thông tin thương hiệu */}
+          <div className="col-lg-4 col-md-6 mb-4 pe-lg-5">
+            <h5 className="brand-title mb-3 d-flex align-items-center">
+              <span className="brand-icon me-2">
+                <i className="fas fa-book"></i>
+              </span>
+              BOOKSTORE
+            </h5>
+            <p className="footer-text">
+              Hành trình khám phá tri thức của bạn bắt đầu từ đây. Chúng tôi cung
+              cấp những đầu sách chất lượng nhất với dịch vụ tận tâm.
+            </p>
+          </div>
+
+          {/* Cột 2: Sản phẩm */}
+          <div className="col-lg-2 col-md-3 mb-4">
+            <h6 className="footer-heading mb-3">Sản phẩm</h6>
+            <ul className="list-unstyled footer-list">
+              <li className="mb-2"><a href="#" className="footer-link">Tiểu thuyết</a></li>
+              <li className="mb-2"><a href="#" className="footer-link">Kinh tế - Đầu tư</a></li>
+              <li className="mb-2"><a href="#" className="footer-link">Công nghệ IT</a></li>
+              <li className="mb-2"><a href="#" className="footer-link">Tâm lý - Kỹ năng</a></li>
+            </ul>
+          </div>
+
+          {/* Cột 3: Hỗ trợ */}
+          <div className="col-lg-2 col-md-3 mb-4">
+            <h6 className="footer-heading mb-3">Hỗ trợ</h6>
+            <ul className="list-unstyled footer-list">
+              <li className="mb-2"><a href="#" className="footer-link">Tài khoản của bạn</a></li>
+              <li className="mb-2"><a href="#" className="footer-link">Tra cứu đơn hàng</a></li>
+              <li className="mb-2"><a href="#" className="footer-link">Chính sách bảo mật</a></li>
+              <li className="mb-2"><a href="#" className="footer-link">Câu hỏi thường gặp</a></li>
+            </ul>
+          </div>
+
+          {/* Cột 4: Đăng ký nhận tin */}
+          <div className="col-lg-4 col-md-6 mb-4">
+            <h6 className="footer-heading mb-3">Nhận bản tin</h6>
+            <p className="footer-text">
+              Đăng ký để nhận mã giảm giá và tin tức sách mới nhất.
+            </p>
+            <form>
+              <div className="input-group mb-3 newsletter-group">
+                <input
+                  type="email"
+                  className="form-control newsletter-input shadow-none"
+                  placeholder="Email của bạn..."
+                  aria-label="Email của bạn"
+                />
+                <button className="btn btn-subscribe fw-bold border-0" type="button">
+                  Gửi
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        {/* Phần Bottom Copyright & Social Icons */}
+        <div className="footer-bottom d-flex flex-column flex-sm-row justify-content-between align-items-center py-3 mt-3">
+          <p className="copyright-text mb-0">
+            © 2026 Bản quyền thuộc về <span className="brand-highlight">BookStore Inc</span>. All rights reserved.
+          </p>
+          <ul className="list-unstyled d-flex mb-0 mt-3 mt-sm-0">
+            {socialLinks.map((social, index) => (
+              <li className="ms-2" key={index}>
+                <a href={social.link} className="social-icon">
+                  <i className={social.icon}></i>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;

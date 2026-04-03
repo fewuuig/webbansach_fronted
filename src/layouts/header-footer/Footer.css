@@ -1,0 +1,117 @@
+.footer-premium {
+    background-color: #1c1e22; 
+    color: #a1a1a6; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Các đoạn văn bản chung */
+.footer-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.footer-list {
+    font-size: 0.9rem;
+}
+
+/* Tiêu đề cột */
+.footer-heading {
+    color: #ffffff;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* Cột 1: Thương hiệu */
+.brand-title {
+    color: #ffc107; 
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.brand-icon i {
+    color: #4caf50; 
+}
+
+.brand-highlight {
+    color: #ffc107;
+    font-weight: 600;
+}
+
+/* Thẻ Link (Sản phẩm, Hỗ trợ) */
+.footer-link {
+    color: #a1a1a6;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+    opacity: 0.75;
+}
+
+.footer-link:hover {
+    color: #ff9800; 
+    opacity: 1;
+    transform: translateX(5px); 
+}
+
+/* Form Đăng ký nhận tin */
+.newsletter-group {
+    border-radius: 4px;
+    overflow: hidden; 
+}
+
+.newsletter-input {
+    background-color: #2a2d34;
+    border: none;
+    color: #ffffff;
+    padding: 10px 15px;
+}
+
+.newsletter-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.newsletter-input:focus {
+    background-color: #33363d; 
+    color: #ffffff;
+    box-shadow: none;
+    border-color: #ff9800;
+}
+
+.btn-subscribe {
+    background-color: #ffc107;
+    color: #000;
+    padding: 10px 24px;
+    transition: all 0.3s ease;
+}
+
+.btn-subscribe:hover {
+    background-color: #ff9800;
+    color: #fff;
+}
+
+.footer-bottom {
+    border-top: 1px solid #33363d;
+}
+
+.copyright-text {
+    font-size: 0.85rem;
+    opacity: 0.75;
+}
+
+.social-icon {
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #2a2d34;
+    color: rgba(255, 255, 255, 0.75);
+    border-radius: 50%;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+    background-color: #ff9800;
+    color: #ffffff;
+    transform: translateY(-3px); /* Nảy nhẹ lên trên */
+}
