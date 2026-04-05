@@ -6,199 +6,217 @@ import { layToanBoAnh } from "../../../api/HinhAnhApi";
 import { Link, NavLink } from "react-router-dom";
 import starRating from "../../utils/Rating";
 import dinhDangSo from "../../utils/DinhDangSo";
-import { error } from "node:console";
-import { Check } from "react-bootstrap-icons";
-
 
 interface SachProps {
     sach: BookModel;
 }
+
 const SachProps: React.FC<SachProps> = (props) => {
     const maSach: number = props.sach.maSach;
     const [danhSachHinhAnh, setDanhSachHinhAnh] = useState<HinhAnhModel[]>([]);
     const [dangTaiDuLieu, setDangTaiDuLieu] = useState(true);
-    const [baoLoi, setBaoLoi] = useState(null);
-    const [hienSoLuong, setHienSoLuong] = useState<boolean>(false)
+    const [baoLoi, setBaoLoi] = useState<string | null>(null);
+    const [hienSoLuong, setHienSoLuong] = useState<boolean>(false);
     const [soLuong, setSoLuong] = useState<number>(1);
     const [wishLove, setWishLove] = useState(false);
-    const toiDa =  props.sach.soLuong ;
+    const toiDa = props.sach.soLuong;
+
     useEffect(() => {
-        layToanBoAnh(maSach , -1).then(
+        layToanBoAnh(maSach, -1).then(
             hinhAnhData => {
                 setDanhSachHinhAnh(hinhAnhData);
-                setDangTaiDuLieu(false)
+                setDangTaiDuLieu(false);
             }
         ).catch(
             error => {
-                setDangTaiDuLieu(false)
+                setDangTaiDuLieu(false);
                 setBaoLoi(error.message);
             }
         );
-    }, [] // chi gọi một lần 
-    )
+    }, [maSach]); // Thêm maSach vào dependency array cho chuẩn React
+
     const check = async () => {
         const accessToken = localStorage.getItem("accessToken");
-        const respone = await fetch(`http://localhost:8080/wish-love/check?maSach=${props.sach.maSach}`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`
+        
+        // FIX LỖI 401 Ở ĐÂY: Nếu không có token hoặc token là chuỗi null/undefined thì không gọi API
+        if (!accessToken || accessToken === "null" || accessToken === "undefined") {
+            return; 
+        }
+
+        try {
+            const respone = await fetch(`http://localhost:8080/wish-love/check?maSach=${props.sach.maSach}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+            if (respone.ok) {
+                const data = await respone.json();
+                setWishLove(data);
             }
-        })
-        if (respone.ok) {
-            const data = await respone.json();
-            setWishLove(data);
+        } catch (error) {
+            console.log("Lỗi check wish-love:", error);
         }
     }
+
     useEffect(() => {
         check();
     }, []);
+
     const handleAddToCart = async () => {
         const accessToken = localStorage.getItem("accessToken");
+        
+        // Cảnh báo nếu chưa đăng nhập
+        if (!accessToken || accessToken === "null") {
+            alert("Vui lòng đăng nhập để thêm vào giỏ hàng!");
+            return;
+        }
+
         await fetch("http://localhost:8080/cart/add-to-cart", {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
                 'Authorization': `Bearer ${accessToken}`,
             },
-            body: JSON.stringify(
-                {
-                    maSach: props.sach.maSach,
-                    soLuong: soLuong
-
-                }
-            )
-
-        }).then(
-            (respone) => {
-                if (respone.ok) {
-                    alert("đã thêm sách vào giỏ hàng của bạn");
-                }
+            body: JSON.stringify({
+                maSach: props.sach.maSach,
+                soLuong: soLuong
+            })
+        }).then((respone) => {
+            if (respone.ok) {
+                alert("Đã thêm sách vào giỏ hàng của bạn");
+                setHienSoLuong(false); // Thêm vào giỏ xong thì ẩn hộp số lượng đi cho gọn
             }
-        ).then((error) => {
+        }).catch((error) => {
             console.log(error);
-
-        })
+        });
     }
+
     const handleAddToWishLove = async () => {
         const accessToken = localStorage.getItem("accessToken");
-        console.log(accessToken);
+        
+        // Cảnh báo nếu chưa đăng nhập
+        if (!accessToken || accessToken === "null") {
+            alert("Vui lòng đăng nhập để thêm vào danh sách yêu thích!");
+            return;
+        }
+
         await fetch('http://localhost:8080/wish-love/add-to-wish-love', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
                 'Authorization': `Bearer ${accessToken}`
-
             },
-            body: JSON.stringify(
-                { maSach: props.sach.maSach }
-            )
-        }).then((respone)=>{
-            if(respone.ok){
-                setWishLove(!wishLove) ; 
+            body: JSON.stringify({ maSach: props.sach.maSach })
+        }).then((respone) => {
+            if (respone.ok) {
+                setWishLove(!wishLove);
             }
-        })
-        
-        .then(error => {
+        }).catch(error => { // FIX LỖI TYPO Ở ĐÂY: Từ .then thành .catch
             console.log(error);
-        })
+        });
     }
+
     if (dangTaiDuLieu) {
         return (
-            <div><h1>dang tai du lieu</h1></div>
+            <div className="col-md-3 mt-3 text-center">
+                <div className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+            </div>
         );
     }
+    
     if (baoLoi) {
         return (
-            <div><h1>gap loi</h1></div>
+            <div className="col-md-3 mt-3">
+                <div className="alert alert-danger">Gặp lỗi: {baoLoi}</div>
+            </div>
         );
     }
 
-   return (
-  <div className="col-md-3 mt-3">
-    <div className="card book-card h-100 shadow-sm">
+    return (
+        <div className="col-md-3 mt-3">
+            <div className="card book-card h-100 shadow-sm">
 
+                <NavLink to={`/sach/${props.sach.maSach}`} className="book-img-wrapper">
+                    {danhSachHinhAnh[0]?.duLieuAnh && (
+                        <img
+                            src={danhSachHinhAnh[0].duLieuAnh}
+                            alt={props.sach.moTa}
+                            className="card-img-top book-img"
+                        />
+                    )}
+                </NavLink>
 
-      <NavLink to={`/sach/${props.sach.maSach}`} className="book-img-wrapper">
-        {danhSachHinhAnh[0]?.duLieuAnh && (
-          <img
-            src={danhSachHinhAnh[0].duLieuAnh}
-            alt={props.sach.moTa}
-            className="card-img-top book-img"
-          />
-        )}
-      </NavLink>
+                <div className="card-body d-flex flex-column">
+                    <div className="mb-1">
+                        {starRating(props.sach.trungBinhXepHang || 0)}
+                    </div>
 
+                    <NavLink
+                        to={`/sach/${props.sach.maSach}`}
+                        className="book-title"
+                    >
+                        {props.sach.tenSach}
+                    </NavLink>
 
-      <div className="card-body d-flex flex-column">
-        <div className="mb-1">
-          {starRating(props.sach.trungBinhXepHang || 0)}
+                    <div className="price-box mt-2">
+                        <del className="text-muted small">
+                            {dinhDangSo(props.sach.giaNiemYet)}đ
+                        </del>
+                        <div className="text-danger fw-bold fs-5">
+                            {dinhDangSo(props.sach.giaBan)}đ
+                        </div>
+                    </div>
+
+                    <div className="mt-auto d-flex gap-2">
+                        <button
+                            className={`btn btn-outline-danger flex-fill ${wishLove ? "active" : ""}`}
+                            onClick={handleAddToWishLove}
+                        >
+                            <i className={wishLove ? "fas fa-heart text-white" : "fas fa-heart"}></i>
+                        </button>
+
+                        <button
+                            className="btn btn-danger flex-fill"
+                            onClick={() => setHienSoLuong(!hienSoLuong)}
+                        >
+                            <i className="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+
+                    {/* QUANTITY */}
+                    {hienSoLuong && (
+                        <div className="quantity-box mt-2 d-flex align-items-center justify-content-between border p-2 rounded bg-light">
+                            <button
+                                className="btn btn-outline-secondary btn-sm fw-bold"
+                                onClick={() => setSoLuong(Math.max(1, soLuong - 1))}
+                            >
+                                −
+                            </button>
+
+                            <span className="fw-bold mx-2">{soLuong}</span>
+
+                            <button
+                                className="btn btn-outline-secondary btn-sm fw-bold"
+                                onClick={() => setSoLuong(Math.min(toiDa, soLuong + 1))}
+                            >
+                                +
+                            </button>
+
+                            <button
+                                className="btn btn-success btn-sm ms-2"
+                                onClick={handleAddToCart}
+                            >
+                                OK
+                            </button>
+                        </div>
+                    )}
+                </div>
+            </div>
         </div>
-
-        <NavLink
-          to={`/sach/${props.sach.maSach}`}
-          className="book-title"
-        >
-          {props.sach.tenSach}
-        </NavLink>
-
-
-        <div className="price-box mt-2">
-          <del className="text-muted small">
-            {dinhDangSo(props.sach.giaNiemYet)}đ
-          </del>
-          <div className="text-danger fw-bold fs-5">
-            {dinhDangSo(props.sach.giaBan)}đ
-          </div>
-        </div>
-
-        <div className="mt-auto d-flex gap-2">
-          <button
-            className={`btn btn-outline-danger flex-fill ${
-              wishLove ? "active" : ""
-            }`}
-            onClick={handleAddToWishLove}
-          >
-            <i className="fas fa-heart"></i>
-          </button>
-
-          <button
-            className="btn btn-danger flex-fill"
-            onClick={() => setHienSoLuong(!hienSoLuong)}
-          >
-            <i className="fas fa-shopping-cart"></i>
-          </button>
-        </div>
-
-        {/* QUANTITY */}
-        {hienSoLuong && (
-          <div className="quantity-box mt-2 d-flex align-items-center justify-content-between">
-            <button
-              className="btn btn-outline-secondary btn-sm"
-              onClick={() => setSoLuong(Math.max(1, soLuong - 1))}
-            >
-              −
-            </button>
-
-            <span className="fw-bold">{soLuong}</span>
-
-            <button
-              className="btn btn-outline-secondary btn-sm"
-              onClick={() => setSoLuong(Math.min(toiDa , soLuong + 1))}
-            >
-              +
-            </button>
-
-            <button
-              className="btn btn-success btn-sm"
-              onClick={handleAddToCart}
-            >
-              OK
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
-  </div>
-);
+    );
 }
-export default SachProps; 
+
+export default SachProps;

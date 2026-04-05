@@ -40,7 +40,7 @@ const VoucherUser: React.FC<Props> = ({ setVoucher }) => {
     const handleSelect = (v: MaGiamGiaCuaUserResponeDTO) => {
         if (v.daDung) return;
 
-        const isSame = selectedVoucher?.maGiamNguoiDung === v.maGiamNguoiDung;
+        const isSame = selectedVoucher?.maGiam === v.maGiam;
         const newValue = isSame ? null : v;
 
         setSelectedVoucher(newValue);
@@ -78,11 +78,11 @@ const VoucherUser: React.FC<Props> = ({ setVoucher }) => {
                                 : dsVoucher.map(v => {
 
                                     const isSelected =
-                                        selectedVoucher?.maGiamNguoiDung === v.maGiamNguoiDung;
+                                        selectedVoucher?.maGiam === v.maGiam;
 
                                     return (
                                         <div
-                                            key={v.maGiamNguoiDung}
+                                            key={v.maGiam}
                                             className={`
                                                 voucher-card 
                                                 ${isSelected ? "selected" : ""} 

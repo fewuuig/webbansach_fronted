@@ -62,7 +62,7 @@ const UserProfile = () => {
   // login
   const handleDangNhap = () => {
     setIsOpen(false);
-    navigate("/account/loggin");
+    navigate("/dang-nhap");
   };
 
   // logout

@@ -1,48 +1,54 @@
 import React, { FormEvent, useState } from "react";
-import "./ThemDiaChi.css" ;
+import { useNavigate } from "react-router-dom";
+import "./ThemDiaChi.css";
+
 const ThemDiaChiGiaoHang: React.FC = () => {
+    const navigate = useNavigate();
     const [quanOrHuyen, setQuanOrHuyen] = useState("");
     const [phuongOrXa, setPhuongOrXa] = useState("");
     const [soNha, setSoNha] = useState("");
     const [tinhOrCity, setTinhOrCity] = useState("");
+
     const handleThemDiaChi = async (e: FormEvent) => {
         e.preventDefault();
         const accessToken = localStorage.getItem("accessToken");
+
         try {
-            const response = await fetch('http://localhost:8080/dia-chi/them-dia-chi-giao-hang', {
-                method: 'POST',
+            const response = await fetch("http://localhost:8080/dia-chi/them-dia-chi-giao-hang", {
+                method: "POST",
                 headers: {
-                    'content-type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`
+                    "content-type": "application/json",
+                    "Authorization": `Bearer ${accessToken}`
                 },
                 body: JSON.stringify({
-                    tinhOrCity: tinhOrCity,
-                    quanOrHuyen: quanOrHuyen,
-                    phuongOrXa: phuongOrXa,
-                    soNha: soNha
+                    tinhOrCity,
+                    quanOrHuyen,
+                    phuongOrXa,
+                    soNha
                 })
             });
+
             if (response.ok) {
-                alert('Thêm địa chỉ thành công!');
+                alert("Thêm địa chỉ giao hàng thành công!");
                 setTinhOrCity("");
                 setQuanOrHuyen("");
                 setPhuongOrXa("");
                 setSoNha("");
+                navigate(-1);
             } else {
-                alert('Thêm địa chỉ thất bại!');
+                alert("Thêm địa chỉ giao hàng thất bại!");
             }
         } catch (error) {
-            alert('Có lỗi xảy ra khi thêm địa chỉ!');
+            alert("Có lỗi xảy ra khi thêm địa chỉ giao hàng!");
         }
-    }
+    };
+
     return (
         <div className="address-container">
             <div className="address-card">
-
                 <h4 className="address-title">Thêm địa chỉ giao hàng</h4>
 
                 <form onSubmit={handleThemDiaChi} className="address-form">
-
                     <div className="form-group">
                         <label>Tỉnh / Thành phố</label>
                         <input
@@ -86,10 +92,10 @@ const ThemDiaChiGiaoHang: React.FC = () => {
                     <button className="btn-submit">
                         + Thêm địa chỉ
                     </button>
-
                 </form>
             </div>
         </div>
     );
-}
-export default ThemDiaChiGiaoHang; 
+};
+
+export default ThemDiaChiGiaoHang;
