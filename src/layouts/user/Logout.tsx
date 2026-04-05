@@ -18,7 +18,7 @@ const Logout: React.FC = () => {
         )
         localStorage.clear();
         
-        navigate("/dang-nhap");
+        navigate("/");
     }
     return (
         <div>

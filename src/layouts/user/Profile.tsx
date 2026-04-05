@@ -79,7 +79,7 @@ const UserProfile = () => {
 
     localStorage.clear();
     setIsOpen(false);
-    navigate("/account/username");
+    navigate("/");
   };
 
   return (
