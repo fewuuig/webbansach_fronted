@@ -68,12 +68,16 @@ const TrangCaNhan: React.FC = () => {
 
     const handleUpdateProfile = async () => {
         try {
-            const res = await authFetch("http://localhost:8080/tai-khoan/profile/update", {
+            const res = await authFetch("http://localhost:8080/profile/update", {
                 method: "PUT",
+                headers: { "Content-Type": "application/json" ,
+                    'Authorization' : `Bearer ${localStorage.getItem("accessToken")}` ,
+                },
                 body: JSON.stringify({ hoDem, ten, soDienThoai, anhDaiDien, gioiTinh, ngaySinh }) 
             });
             const text = await res.text();
             if (res.ok) {
+                alert("Cập nhật thành công!") ;
                 setNoti({ message: text, type: "success" });
                 setUser({ ...user, hoDem, ten, soDienThoai, anhDaiDien, gioiTinh, ngaySinh });
                 setTimeout(() => setNoti({ message: "", type: "" }), 3000);
@@ -85,8 +89,11 @@ const TrangCaNhan: React.FC = () => {
     const handleChangePassword = async () => {
         if (newPassword !== confirmPassword) return setNoti({ message: "Mật khẩu không khớp!", type: "warning" });
         try {
-            const res = await authFetch("http://localhost:8080/tai-khoan/profile/change-password", {
+            const res = await authFetch("http://localhost:8080/tai-khoan/change-password", {
                 method: "PUT",
+                headers: { "Content-Type": "application/json" ,
+                    'Authorization' : `Bearer ${localStorage.getItem("accessToken")}` ,
+                },
                 body: JSON.stringify({ oldPassword, newPassword })
             });
             const text = await res.text();
@@ -164,7 +171,7 @@ const TrangCaNhan: React.FC = () => {
                                             <div className="mb-3 row align-items-center">
                                                 <label className="col-sm-3 col-form-label text-muted small">Ngày sinh</label>
                                                 <div className="col-sm-9">
-                                                    <input type="date" className="form-control" value={ngaySinh} onChange={(e) => setNgaySinh(e.target.value)} />
+                                                    <input type="datetime-local" className="form-control" value={ngaySinh} onChange={(e) => setNgaySinh(e.target.value)} />
                                                 </div>
                                             </div>
 

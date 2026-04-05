@@ -62,7 +62,7 @@ const UserProfile = () => {
   // login
   const handleDangNhap = () => {
     setIsOpen(false);
-    navigate("/account/loggin");
+    navigate("/dang-nhap");
   };
 
   // logout
@@ -79,7 +79,7 @@ const UserProfile = () => {
 
     localStorage.clear();
     setIsOpen(false);
-    navigate("/account/username");
+    navigate("/");
   };
 
   return (
