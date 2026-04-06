@@ -1,10 +1,92 @@
-body {
+﻿body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background: #f8fafc;
+    color: #111827;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+body.app-theme-light {
+    background: #f8fafc;
+    color: #111827;
+}
+
+body.app-theme-dark {
+    background: #0f172a;
+    color: #e5e7eb;
+}
+
+body.app-theme-dark .navbar,
+body.app-theme-dark .dropdown-menu,
+body.app-theme-dark .card,
+body.app-theme-dark .list-group-item,
+body.app-theme-dark .accordion-item,
+body.app-theme-dark .accordion-button,
+body.app-theme-dark .modal-content,
+body.app-theme-dark .table,
+body.app-theme-dark .pagination .page-link,
+body.app-theme-dark .offcanvas,
+body.app-theme-dark .footer-premium,
+body.app-theme-dark .form-control,
+body.app-theme-dark .form-select,
+body.app-theme-dark .input-group-text {
+    background-color: #111827 !important;
+    color: #e5e7eb !important;
+    border-color: #334155 !important;
+}
+
+body.app-theme-dark .dropdown-item,
+body.app-theme-dark .nav-link,
+body.app-theme-dark .navbar-brand,
+body.app-theme-dark .card-title,
+body.app-theme-dark .card-text,
+body.app-theme-dark .form-label,
+body.app-theme-dark .table,
+body.app-theme-dark .table th,
+body.app-theme-dark .table td,
+body.app-theme-dark .footer-link,
+body.app-theme-dark .footer-text,
+body.app-theme-dark .footer-heading,
+body.app-theme-dark .copyright-text,
+body.app-theme-dark h1,
+body.app-theme-dark h2,
+body.app-theme-dark h3,
+body.app-theme-dark h4,
+body.app-theme-dark h5,
+body.app-theme-dark h6,
+body.app-theme-dark p,
+body.app-theme-dark span,
+body.app-theme-dark label,
+body.app-theme-dark li {
+    color: #e5e7eb !important;
+}
+
+body.app-theme-dark .text-muted,
+body.app-theme-dark .text-secondary,
+body.app-theme-dark .text-dark {
+    color: #cbd5e1 !important;
+}
+
+body.app-theme-dark .btn-outline-dark,
+body.app-theme-dark .btn-outline-secondary {
+    color: #e5e7eb;
+    border-color: #94a3b8;
+}
+
+body.app-theme-dark .btn-close {
+    filter: invert(1);
+}
+
+body.app-theme-dark a {
+    color: #93c5fd;
+}
+
+body.app-theme-dark a:hover {
+    color: #bfdbfe;
 }

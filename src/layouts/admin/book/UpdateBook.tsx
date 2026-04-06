@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import BookModel from "../../../model/BookModel";
 import { layToanBoAnh } from "../../../api/HinhAnhApi";
 import {
     layBookDeletde,
     layToanBoSachCategoryNotPage,
-  // Đảm bảo hàm này được import đúng từ file API của bạn
-} from "../../../api/BookApi"; 
+} from "../../../api/BookApi";
 import HinhAnhModel from "../../../model/HinhAnhModel";
 
 interface hinhAnhDTOS {
@@ -23,10 +22,12 @@ interface BookUpdateDTO {
     giaBan: number;
     soLuong: number;
     hinhAnhDTOS: hinhAnhDTOS[];
-    idImgDelete: number[]; // Để gửi list ID ảnh cần xóa về Backend
+    idImgDelete: number[];
 }
 
 const UpdateBook: React.FC = () => {
+    const fileInputRefs = useRef<Array<HTMLInputElement | null>>([]);
+    const [pendingFilePickerIndex, setPendingFilePickerIndex] = useState<number | null>(null);
     const [danhSachSach, setDanhSachSach] = useState<BookModel[]>([]);
     const [sachDeleted, setSachDeleted] = useState<BookModel[]>([]);
     const [book, setBook] = useState<BookUpdateDTO | null>(null);
@@ -38,11 +39,10 @@ const UpdateBook: React.FC = () => {
     const [viewDeleted, setViewDeleted] = useState(false);
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
     const [maTheLoai, setMaTheLoai] = useState<number>(0);
-    
-    const [imgOriginal, setImgOriginal] = useState<HinhAnhModel[]>([]); 
+
+    const [imgOriginal, setImgOriginal] = useState<HinhAnhModel[]>([]);
     const accessToken = localStorage.getItem("accessToken");
 
-    // 1. LOAD DATA (Giữ nguyên logic cũ của bạn)
     useEffect(() => {
         layToanBoSachCategoryNotPage(maTheLoai).then(setDanhSachSach);
         layBookDeletde(maTheLoai).then(setSachDeleted);
@@ -51,12 +51,16 @@ const UpdateBook: React.FC = () => {
         setImgOriginal([]);
     }, [maTheLoai]);
 
-    console.log("Danh sách sách: ", danhSachSach);
-    // 2. SELECT BOOK (Thêm logic lấy ảnh cũ)
+    useEffect(() => {
+        if (pendingFilePickerIndex === null) return;
+
+        fileInputRefs.current[pendingFilePickerIndex]?.click();
+        setPendingFilePickerIndex(null);
+    }, [pendingFilePickerIndex, book?.hinhAnhDTOS.length]);
+
     const handleSelectBook = async (sach: BookModel) => {
         if (isDeleteMode) return;
 
-        // Lấy ảnh cũ từ database hiện lên
         try {
             const anhCuaSach = await layToanBoAnh(sach.maSach, -1);
             setImgOriginal(anhCuaSach || []);
@@ -73,19 +77,17 @@ const UpdateBook: React.FC = () => {
             giaNiemYet: sach.giaNiemYet || 0,
             giaBan: sach.giaBan || 0,
             soLuong: sach.soLuong,
-            hinhAnhDTOS: [], // Ảnh mới thêm (để trống)
-            idImgDelete: []  // Danh sách ID ảnh cũ muốn xóa (để trống)
+            hinhAnhDTOS: [],
+            idImgDelete: []
         });
     };
 
-    // 3. CHECKBOX XÓA SÁCH
     const handleCheck = (id: number) => {
         setSelectedIds((prev) =>
             prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
         );
     };
 
-    // 4. LOGIC XỬ LÝ ẢNH CŨ (Chọn ID để xóa)
     const handleToggleDeleteImage = (idHinhAnh: number) => {
         if (!book) return;
         const isMarked = book.idImgDelete.includes(idHinhAnh);
@@ -95,20 +97,34 @@ const UpdateBook: React.FC = () => {
         setBook({ ...book, idImgDelete: newIds });
     };
 
-    // 5. LOGIC THÊM ẢNH MỚI (DTO)
     const addImage = () => {
         if (!book) return;
+        const nextIndex = book.hinhAnhDTOS.length;
+
         setBook({
             ...book,
-            hinhAnhDTOS: [...(book.hinhAnhDTOS || []), { tenHinhAnh: '', duLieuAnh: '' }]
+            hinhAnhDTOS: [...book.hinhAnhDTOS, { tenHinhAnh: "", duLieuAnh: "" }]
         });
+
+        setPendingFilePickerIndex(nextIndex);
     };
 
-    const handleImageChange = (index: number, field: string, value: string) => {
+    const handleImageChange = (index: number, e: ChangeEvent<HTMLInputElement>) => {
         if (!book) return;
-        const newImages = [...book.hinhAnhDTOS];
-        newImages[index] = { ...newImages[index], [field]: value };
-        setBook({ ...book, hinhAnhDTOS: newImages });
+
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            const newImages = [...book.hinhAnhDTOS];
+            newImages[index] = {
+                tenHinhAnh: file.name,
+                duLieuAnh: typeof reader.result === "string" ? reader.result : ""
+            };
+            setBook({ ...book, hinhAnhDTOS: newImages });
+        };
+        reader.readAsDataURL(file);
     };
 
     const removeImage = (index: number) => {
@@ -116,12 +132,11 @@ const UpdateBook: React.FC = () => {
         setBook({ ...book, hinhAnhDTOS: book.hinhAnhDTOS.filter((_, i) => i !== index) });
     };
 
-    // 6. UPDATE
-    const handleSubmit = async (e: any) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
             setLoading(true);
-            await fetch(`http://localhost:8080/book/update`, {
+            const response = await fetch("http://localhost:8080/book/update", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -129,18 +144,22 @@ const UpdateBook: React.FC = () => {
                 },
                 body: JSON.stringify(book)
             });
-            setMessage("✅ Cập nhật thành công");
+
+            if (!response.ok) {
+                throw new Error("Cập nhật thất bại");
+            }
+
+            setMessage("Cập nhật thành công");
             layToanBoSachCategoryNotPage(maTheLoai).then(setDanhSachSach);
-            setBook(null); // Đóng form sau khi update
+            setBook(null);
         } catch {
-            setMessage("Lỗi update");
+            setMessage("Lỗi cập nhật");
         } finally {
             setLoading(false);
         }
-        console.log("Dữ liệu gửi về Backend: ", book);
+        console.log("Dữ liệu gửi đến Backend: ", book);
     };
 
-    // 7. DELETE & RESTORE (Giữ nguyên logic của bạn)
     const handleDelete = async () => {
         if (selectedIds.length === 0) return alert("Chọn sách");
         try {
@@ -150,11 +169,15 @@ const UpdateBook: React.FC = () => {
                 headers: { "Content-Type": "application/json", Authorization: `Bearer ${accessToken}` },
                 body: JSON.stringify(selectedIds)
             });
-            setMessage("🗑️ Đã xóa");
+            setMessage("Đã xóa");
             layToanBoSachCategoryNotPage(maTheLoai).then(setDanhSachSach);
             layBookDeletde(maTheLoai).then(setSachDeleted);
             setSelectedIds([]);
-        } catch { setMessage("Lỗi xóa"); } finally { setLoading(false); }
+        } catch {
+            setMessage("Lỗi xóa");
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleRestore = async () => {
@@ -166,18 +189,22 @@ const UpdateBook: React.FC = () => {
                 headers: { "Content-Type": "application/json", Authorization: `Bearer ${accessToken}` },
                 body: JSON.stringify(selectedIds)
             });
-            setMessage("♻️ Khôi phục thành công");
+            setMessage("Khôi phục thành công");
             layToanBoSachCategoryNotPage(maTheLoai).then(setDanhSachSach);
             layBookDeletde(maTheLoai).then(setSachDeleted);
             setSelectedIds([]);
-        } catch { setMessage("Lỗi restore"); } finally { setLoading(false); }
+        } catch {
+            setMessage("Lỗi khôi phục");
+        } finally {
+            setLoading(false);
+        }
     };
 
     const list = viewDeleted ? sachDeleted : danhSachSach;
 
     return (
         <div className="container mt-4">
-            <h3 className="fw-bold mb-3">📚 Quản lý sách</h3>
+            <h3 className="fw-bold mb-3">Quản lý sách</h3>
 
             <div className="d-flex flex-wrap gap-2 mb-3">
                 <select
@@ -193,26 +220,25 @@ const UpdateBook: React.FC = () => {
                 </select>
 
                 <button className="btn btn-outline-secondary" onClick={() => setViewDeleted(!viewDeleted)}>
-                    {viewDeleted ? "📖 Sách hoạt động" : "🗑️ Sách đã xóa"}
+                    {viewDeleted ? "Sách hoạt động" : "Sách đã xóa"}
                 </button>
 
                 {!viewDeleted && (
                     <button className="btn btn-outline-danger" onClick={() => setIsDeleteMode(!isDeleteMode)}>
-                        {isDeleteMode ? "❌ Hủy xóa" : "🗑️ Xóa sách"}
+                        {isDeleteMode ? "Hủy xóa" : "Xóa sách"}
                     </button>
                 )}
 
                 {isDeleteMode && !viewDeleted && (
-                    <button className="btn btn-danger" onClick={handleDelete}>⚠️ Xác nhận xóa</button>
+                    <button className="btn btn-danger" onClick={handleDelete}>Xác nhận xóa</button>
                 )}
 
                 {viewDeleted && (
-                    <button className="btn btn-success" onClick={handleRestore}>♻️ Khôi phục</button>
+                    <button className="btn btn-success" onClick={handleRestore}>Khôi phục</button>
                 )}
             </div>
 
             <div className="row g-3">
-                {/* DANH SÁCH BÊN TRÁI */}
                 <div className="col-md-5">
                     <div className="card">
                         <div className="card-header">{viewDeleted ? "Sách đã xóa" : "Sách đang bán"}</div>
@@ -231,11 +257,10 @@ const UpdateBook: React.FC = () => {
                     </div>
                 </div>
 
-                {/* FORM BÊN PHẢI */}
                 <div className="col-md-7">
                     {book && (
                         <div className="card p-3 shadow-sm">
-                            <h5>{viewDeleted ? "📦 Chi tiết" : "✏️ Chỉnh sửa"}</h5>
+                            <h5>{viewDeleted ? "Chi tiết" : "Chỉnh sửa"}</h5>
                             <form onSubmit={handleSubmit}>
                                 <div className="row">
                                     <div className="col-md-6 mb-2">
@@ -259,10 +284,9 @@ const UpdateBook: React.FC = () => {
                                         <textarea className="form-control" rows={3} value={book.moTa} disabled={viewDeleted} onChange={(e) => setBook({ ...book, moTa: e.target.value })} />
                                     </div>
 
-                                    {/* PHẦN QUẢN LÝ ẢNH */}
                                     <div className="col-12">
                                         <hr />
-                                        <h6>🖼️ Ảnh hiện tại (Tích để xóa)</h6>
+                                        <h6>Ảnh hiện tại (Tích để xóa)</h6>
                                         <div className="d-flex flex-wrap gap-2 mb-3">
                                             {imgOriginal.map((img) => (
                                                 <div key={img.maHinhAnh} className="text-center border p-1" style={{ width: "100px" }}>
@@ -272,12 +296,41 @@ const UpdateBook: React.FC = () => {
                                             ))}
                                         </div>
 
-                                        <h6>📷 Thêm ảnh mới</h6>
+                                        <h6>Thêm ảnh mới</h6>
                                         {book.hinhAnhDTOS.map((img, index) => (
                                             <div key={index} className="border p-2 mb-2">
-                                                <input className="form-control form-control-sm mb-1" placeholder="Tên ảnh" value={img.tenHinhAnh} onChange={(e) => handleImageChange(index, "tenHinhAnh", e.target.value)} />
-                                                <input className="form-control form-control-sm mb-1" placeholder="Link ảnh/Base64" value={img.duLieuAnh} onChange={(e) => handleImageChange(index, "duLieuAnh", e.target.value)} />
-                                                <button type="button" className="btn btn-danger btn-sm" onClick={() => removeImage(index)}>Xóa</button>
+                                                <input
+                                                    ref={(element) => {
+                                                        fileInputRefs.current[index] = element;
+                                                    }}
+                                                    type="file"
+                                                    accept="image/*"
+                                                    className="d-none"
+                                                    onChange={(e) => handleImageChange(index, e)}
+                                                />
+
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-outline-primary btn-sm mb-2"
+                                                    onClick={() => fileInputRefs.current[index]?.click()}
+                                                >
+                                                    {img.duLieuAnh ? "Đổi ảnh khác" : "Chọn ảnh từ máy"}
+                                                </button>
+
+                                                {img.duLieuAnh && (
+                                                    <>
+                                                        <div className="mb-2">
+                                                            <img
+                                                                src={img.duLieuAnh}
+                                                                alt={img.tenHinhAnh || `Ảnh ${index + 1}`}
+                                                                style={{ width: "120px", marginBottom: "10px" }}
+                                                            />
+                                                        </div>
+                                                        <button type="button" className="btn btn-danger btn-sm" onClick={() => removeImage(index)}>
+                                                            Xóa
+                                                        </button>
+                                                    </>
+                                                )}
                                             </div>
                                         ))}
                                         {!viewDeleted && <button type="button" className="btn btn-sm btn-success" onClick={addImage}>+ Thêm ảnh</button>}

@@ -26,6 +26,7 @@ import DisableAccount from './layouts/admin/account/DisableAccount';
 import UpdateBook from './layouts/admin/book/UpdateBook';
 import ThemMaGiamGia from './layouts/admin/voucher/ThemMaGiamGia';
 import TrangCaNhan from './layouts/user/TrangCaNhan'; 
+import { AppSettingsProvider } from './context/AppSettingsContext';
 
 function App() {
   const [tuKhoaTimKiem, setTuKhoatimKiem] = useState('');
@@ -38,16 +39,17 @@ function App() {
   });
 
   return (
-    <div className='App'>
-      <BrowserRouter>
-        <Navbar 
-          tuKhoaTimKiem={tuKhoaTimKiem} 
-          setTuKhoaTimKiem={setTuKhoatimKiem} 
-          filter={filter} 
-          setFilter={setFilter} 
-        />
+    <AppSettingsProvider>
+      <div className='App'>
+        <BrowserRouter>
+          <Navbar 
+            tuKhoaTimKiem={tuKhoaTimKiem} 
+            setTuKhoaTimKiem={setTuKhoatimKiem} 
+            filter={filter} 
+            setFilter={setFilter} 
+          />
 
-        <Routes>
+          <Routes>
 
           {/* TRANG CHỦ */}
           <Route path='/' element={<HomePage tuKhoaTimKiem={tuKhoaTimKiem} setTuKhoaTimKiem={setTuKhoatimKiem} filter={filter}/>} />
@@ -87,10 +89,11 @@ function App() {
           {/* CHAT */}
           <Route path='/chat/users' element={<DanhSachChat />} />
           <Route path='/chat/users/:username' element={<ChatWS />} />
-        </Routes>
-        <Footer />
-      </BrowserRouter>
-    </div>
+          </Routes>
+          <Footer />
+        </BrowserRouter>
+      </div>
+    </AppSettingsProvider>
   );
 }
 export default App;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import XemDon from "./XemDon";
 const DonHang : React.FC = ()=>{
-    const [trangThai , setTrangThai] = useState<string>("") ; 
+    const [trangThai , setTrangThai] = useState<string>("CHO_XAC_NHAN") ; 
 
     return (
         <div className="container">
